@@ -24,7 +24,8 @@
 
 ---
 
-## 📅 4-Week Capstone Plan
+
+# 📅 4-Week Capstone Plan
 
 ### ✅ **Week 1: Research, Design, and Project Setup**
 - Research similar platforms .
@@ -44,7 +45,6 @@
 - Integrate **Google OAuth** using `passport-google-oauth20`.
 - Set up Multer for file uploads (image/asset sharing).
 - Test APIs with Thunder Client or Postman.
-
 ---
 
 ### ✅ **Week 3: Frontend Development (React + TypeScript)**
@@ -54,7 +54,6 @@
 - Connect frontend to backend using Axios with custom hooks and interfaces.
 - Implement protected routes using route guards.
 - Apply Tailwind CSS and match UI with Figma designs (fully responsive).
-
 ---
 
 ### ✅ **Week 4: Final Touches, Deployment & Documentation**
@@ -62,8 +61,6 @@
 - Deploy backend on **Render**, frontend on **Netlify** or **Vercel**.
 - Full end-to-end testing.
 - Complete documentation: API reference, README, and Bruno/Postman collection.
-         
-
 ---
 
 
