@@ -5,8 +5,7 @@ const resourceSchema = new mongoose.Schema(
     title: { type: String, required: true },
     description: { type: String, required: true },
     isFree: { type: Boolean, required: true },
-    price: {type: Number,
-      validate: {
+    price: {type: Number, validate: {
         validator: function (value: number) {
           // If not free, price must be provided
           if (!this.isFree && (value === undefined || value === null)) {
