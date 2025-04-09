@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import connectDB from './config/db';
+import resourceRoutes from '../routes/resourceRoutes';
 
 dotenv.config();
 connectDB();
@@ -13,6 +14,7 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Hi , BitBloom Backend is live! 🚀');
 });
 
+app.use('/api/resources', resourceRoutes);
 
 
 app.listen(PORT, () => {
