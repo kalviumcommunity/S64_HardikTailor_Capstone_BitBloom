@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import connectDB from './config/db';
-import resourceRoutes from '../routes/resourceRoutes';
+import resourceRoutes from './routes/resourceRoutes';
 
 dotenv.config();
 connectDB();

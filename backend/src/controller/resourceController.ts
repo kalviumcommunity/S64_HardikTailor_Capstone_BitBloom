@@ -20,3 +20,13 @@ export const createResource = async (req: Request, res: Response) => {
   }
 };
 
+
+
+export const getResources = async (req: Request, res: Response) => {
+  try {
+    const resources = await Resource.find().sort({ createdAt: -1 }); // latest first
+    res.status(200).json(resources);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch resources', error });
+  }
+};

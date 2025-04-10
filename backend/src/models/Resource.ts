@@ -1,13 +1,22 @@
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 
-const resourceSchema = new mongoose.Schema(
+interface IResource extends Document {
+  title: string;
+  description: string;
+  isFree: boolean;
+  price?: number;
+  file?: string;
+}
+
+const resourceSchema = new mongoose.Schema<IResource>(
   {
     title: { type: String, required: true },
     description: { type: String, required: true },
     isFree: { type: Boolean, required: true },
-    price: {type: Number, validate: {
-        validator: function (value: number) {
-          // If not free, price must be provided
+    price: {
+      type: Number,
+      validate: {
+        validator: function (this: IResource, value: number) {
           if (!this.isFree && (value === undefined || value === null)) {
             return false;
           }
@@ -21,5 +30,5 @@ const resourceSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Resource = mongoose.model('Resource', resourceSchema);
+const Resource = mongoose.model<IResource>('Resource', resourceSchema);
 export default Resource;
