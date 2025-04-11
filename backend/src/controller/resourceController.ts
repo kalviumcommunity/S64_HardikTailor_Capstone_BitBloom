@@ -48,25 +48,3 @@ export const getResourceById = async (req: Request, res: Response): Promise<Resp
     res.status(500).json({ message: 'Error fetching resource', error });
   }
 };
-
-
-export const updateResource = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-    const updatedData = req.body;
-
-    const updatedResource = await Resource.findByIdAndUpdate(id, updatedData, {
-      new: true,
-      runValidators: true,
-    });
-
-    if (!updatedResource) {
-      return res.status(404).json({ message: "Resource not found" });
-    }
-
-    res.status(200).json(updatedResource);
-  } catch (error) {
-    console.error("Error updating resource:", error);
-    res.status(500).json({ message: "Server error" });
-  }
-};
