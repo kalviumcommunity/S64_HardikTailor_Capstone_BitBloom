@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import connectDB from './config/db';
 import resourceRoutes from './routes/resourceRoutes';
+import userRoutes from './routes/userRoutes';
 
 dotenv.config();
 connectDB();
@@ -15,6 +16,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.use('/api/resources', resourceRoutes);
+app.use("/api/auth", userRoutes);
 
 
 app.listen(PORT, () => {
