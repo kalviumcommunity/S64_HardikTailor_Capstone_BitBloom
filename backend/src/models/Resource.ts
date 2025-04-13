@@ -6,6 +6,7 @@ interface IResource extends Document {
   isFree: boolean;
   price?: number;
   file?: string;
+  user: mongoose.Schema.Types.ObjectId; // Reference to User
 }
 
 const resourceSchema = new mongoose.Schema<IResource>(
@@ -25,7 +26,9 @@ const resourceSchema = new mongoose.Schema<IResource>(
         message: 'Price is required if the resource is paid',
       },
     },
-    file: { type: String }, // will store file path later
+    file: { type: String }, // will store file path later 
+    user: {type: mongoose.Schema.Types.ObjectId,ref: "User",  required: true,
+    },
   },
   { timestamps: true }
 );
