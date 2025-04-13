@@ -3,6 +3,7 @@ import Resource from '../models/Resource';
 import mongoose from 'mongoose';
 
 
+
 export const createResource = async (req: Request, res: Response) => {
   try {
     const { title, description, isFree, price } = req.body;
@@ -13,7 +14,9 @@ export const createResource = async (req: Request, res: Response) => {
       isFree,
       price: isFree ? undefined : price, // skip price if it's free
       // file: will be added when we do upload
-    });
+      user: req.user?.id,
+      
+    }); 
 
     const savedResource = await newResource.save();
     res.status(201).json(savedResource);
@@ -25,7 +28,7 @@ export const createResource = async (req: Request, res: Response) => {
 
 export const getResources = async (req: Request, res: Response) => {
   try {
-    const resources = await Resource.find().sort({ createdAt: -1 }); // latest first
+    const resources = await Resource.find().sort({ createdAt: -1 }).populate('user', 'username email');
     res.status(200).json(resources);
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch resources', error });
@@ -39,7 +42,7 @@ export const getResourceById = async (req: Request, res: Response): Promise<Resp
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: 'Invalid resource ID' });
     }
-    const resource = await Resource.findById(id);
+    const resource = await Resource.findById(id).populate('user', 'username email');
     if (!resource) {
       return res.status(404).json({ message: 'Resource not found' });
     }
