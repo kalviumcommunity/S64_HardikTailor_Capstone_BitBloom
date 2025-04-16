@@ -65,3 +65,6 @@
 
 
 
+## Deployment link :
+- Backend : https://bitbloom-1zw8.onrender.com
+
