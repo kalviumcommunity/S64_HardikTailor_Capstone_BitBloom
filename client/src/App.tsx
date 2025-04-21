@@ -1,17 +1,25 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
-import Navbar from './components/Navbar';
-import ExplorePage from './page/Explore';
+import {  Routes, Route } from 'react-router-dom';
+import ResourcesPage from '../src/page/resourcePage';
+import ExplorePage from '../src/page/Explore';
+import UploadResource from './page/uploadResource';
+import ResourceDetails from './page/resourceDeatils';
+import HomePage from './page/Home';
+import OpenSource from './page/projectPage';
+import Auth from './page/auth';
+
 
 const App: React.FC = () => {
   return (
-    <div className="bitbloom-app">
-      <Navbar />
-      <div className="container">
-        <ExplorePage />
-      </div>
-    </div>
+      <Routes>
+        <Route path = '/' element= {<HomePage />} />
+        <Route path="/explore" element={<ExplorePage />} />
+        <Route path="/resource" element={<ResourcesPage />} />
+        <Route path ="/opensource" element={<OpenSource />} />
+        <Route path='/uploadresource' element={<UploadResource />} />
+        <Route path="/resources/:id" element={<ResourceDetails />} />
+        <Route path ="/auth" element={<Auth />} />
+      </Routes>
   );
 };
 

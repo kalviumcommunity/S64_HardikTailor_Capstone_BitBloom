@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import connectDB from './config/db';
 import resourceRoutes from './routes/resourceRoutes';
 import userRoutes from './routes/userRoutes';
@@ -8,6 +9,11 @@ dotenv.config();
 connectDB();
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+app.use(cors({
+  origin: 'http://localhost:5173', 
+  credentials: true 
+}));
 app.use(express.json());
 
 

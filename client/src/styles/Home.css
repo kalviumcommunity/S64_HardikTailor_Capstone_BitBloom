@@ -1,0 +1,64 @@
+/* HomePage.css */
+
+body {
+  font-family: 'Inter', sans-serif; /* You can also use 'Poppins' or 'Manrope' */
+}
+
+/* Hero Section */
+.hero-section {
+  background-color: #f8f9fb;
+  padding: 4rem 2rem;
+}
+
+.hero-heading {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1e1e1e;
+  line-height: 1.2;
+}
+
+.hero-subtext {
+  color: #555;
+  font-size: 1.1rem;
+  margin-top: 1rem;
+  line-height: 1.7;
+}
+
+.hero-cta {
+  margin-top: 2rem;
+}
+
+.join-btn {
+  background-color: #f3f0ff;
+  color: #1e1e1e;
+  border: none;
+  padding: 0.7rem 2rem;
+  border-radius: 30px;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.join-btn:hover {
+  background-color: #e0dcff;
+}
+
+/* Info Section */
+.info-section {
+  background-color: white;
+  padding: 4rem 2rem;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1e1e1e;
+}
+
+.section-text {
+  font-size: 1rem;
+  color: #444;
+  margin-top: 1rem;
+  line-height: 1.6;
+}

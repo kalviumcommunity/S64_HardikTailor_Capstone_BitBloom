@@ -1,0 +1,70 @@
+/* Explore Page Custom Styles */
+
+button.custom-join-btn {
+  background: rgba(234, 203, 237, 0.25); /* transparent base */
+  color: black;
+  border: 1.5px solid rgba(0, 0, 0, 0.3);
+  border-radius: 999px;
+  padding: 0.6rem 1.8rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+button.custom-join-btn::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0.1) 20%,
+    rgba(255, 255, 255, 0.3) 40%,
+    transparent 60%
+  );
+  transform: rotate(25deg);
+  transition: opacity 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+
+
+
+.explore-hero,
+.explore-benefits,
+.explore-community {
+  scroll-margin-top: 80px;
+}
+
+/* Optional: Smoother image rounding and spacing */
+img.img-fluid {
+  border-radius: 10px;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Button spacing if stacked or in flex-wrap */
+.explore-community .btn {
+  min-width: 140px;
+}
+
+/* Headings and spacing enhancements */
+.explore-hero h1,
+.explore-benefits h2,
+.explore-community h2 {
+  letter-spacing: -0.5px;
+}
+
+.explore-benefits h5 {
+  font-size: 1.1rem;
+}
