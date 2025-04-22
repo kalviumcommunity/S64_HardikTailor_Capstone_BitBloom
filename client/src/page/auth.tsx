@@ -9,6 +9,7 @@ const AuthPage: React.FC = () => {
   const [signupData, setSignupData] = useState({ username: '', email: '', password: '' });
   const [loginError, setLoginError] = useState<string | null>(null);
   const [signupError, setSignupError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [isFlipped, setIsFlipped] = useState(false);
 
@@ -19,9 +20,20 @@ const AuthPage: React.FC = () => {
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   };
 
+  const isValidEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!loginData.email || !loginData.password) {
+      return setLoginError("Please fill in all fields.");
+    }
+    if (!isValidEmail(loginData.email)) {
+      return setLoginError("Enter a valid email address.");
+    }
+
     try {
+      setLoading(true);
       const res = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -30,16 +42,30 @@ const AuthPage: React.FC = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
       localStorage.setItem('token', data.token);
-      navigate('/explore');
+      navigate('/');
     } catch (err: any) {
       setLoginError(err.message);
       setSignupError(null);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!signupData.username || !signupData.email || !signupData.password) {
+      return setSignupError("Please fill in all fields.");
+    }
+    if (!isValidEmail(signupData.email)) {
+      return setSignupError("Enter a valid email address.");
+    }
+    if (signupData.password.length < 6) {
+      return setSignupError("Password must be at least 6 characters.");
+    }
+
     try {
+      setLoading(true);
       const res = await fetch('http://localhost:5000/api/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -51,6 +77,8 @@ const AuthPage: React.FC = () => {
     } catch (err: any) {
       setSignupError(err.message);
       setLoginError(null);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -92,8 +120,8 @@ const AuthPage: React.FC = () => {
                 }}
               />
             </div>
-            <button type="submit" className="auth-button">
-              Login
+            <button type="submit" className="auth-button" disabled={loading}>
+              {loading ? "Logging in..." : "Login"}
             </button>
           </form>
           {loginError && <p className="text-danger text-center mt-3">{loginError}</p>}
@@ -153,8 +181,8 @@ const AuthPage: React.FC = () => {
                 }}
               />
             </div>
-            <button type="submit" className="auth-button">
-              Signup
+            <button type="submit" className="auth-button" disabled={loading}>
+              {loading ? "Signing up..." : "Signup"}
             </button>
           </form>
           {signupError && <p className="text-danger text-center mt-3">{signupError}</p>}
