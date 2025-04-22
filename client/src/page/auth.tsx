@@ -7,7 +7,8 @@ import "../styles/auth.css";
 const AuthPage: React.FC = () => {
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const [signupData, setSignupData] = useState({ username: '', email: '', password: '' });
-  const [error, setError] = useState<string | null>(null);
+  const [loginError, setLoginError] = useState<string | null>(null);
+  const [signupError, setSignupError] = useState<string | null>(null);
   const navigate = useNavigate();
   const [isFlipped, setIsFlipped] = useState(false);
 
@@ -29,9 +30,10 @@ const AuthPage: React.FC = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
       localStorage.setItem('token', data.token);
-      navigate('/');
+      navigate('/explore');
     } catch (err: any) {
-      setError(err.message);
+      setLoginError(err.message);
+      setSignupError(null);
     }
   };
 
@@ -47,7 +49,8 @@ const AuthPage: React.FC = () => {
       if (!res.ok) throw new Error(data.message);
       setIsFlipped(false);
     } catch (err: any) {
-      setError(err.message);
+      setSignupError(err.message);
+      setLoginError(null);
     }
   };
 
@@ -69,9 +72,10 @@ const AuthPage: React.FC = () => {
                 type="email"
                 id="login-email"
                 placeholder="you@bitbloom.dev"
+                value={loginData.email}
                 onChange={(e) => {
                   setLoginData({ ...loginData, email: e.target.value });
-                  setError(null);
+                  setLoginError(null);
                 }}
               />
             </div>
@@ -81,9 +85,10 @@ const AuthPage: React.FC = () => {
                 type="password"
                 id="login-password"
                 placeholder="••••••••"
+                value={loginData.password}
                 onChange={(e) => {
                   setLoginData({ ...loginData, password: e.target.value });
-                  setError(null);
+                  setLoginError(null);
                 }}
               />
             </div>
@@ -91,7 +96,7 @@ const AuthPage: React.FC = () => {
               Login
             </button>
           </form>
-          {error && <p className="text-danger text-center mt-3">{error}</p>}
+          {loginError && <p className="text-danger text-center mt-3">{loginError}</p>}
           <div className="divider">or</div>
           <button className="google-button">
             <img src={googleImg} alt="Google" className="google-icon" />
@@ -115,9 +120,10 @@ const AuthPage: React.FC = () => {
                 type="text"
                 id="signup-name"
                 placeholder="BitBloomer"
+                value={signupData.username}
                 onChange={(e) => {
                   setSignupData({ ...signupData, username: e.target.value });
-                  setError(null);
+                  setSignupError(null);
                 }}
               />
             </div>
@@ -127,9 +133,10 @@ const AuthPage: React.FC = () => {
                 type="email"
                 id="signup-email"
                 placeholder="you@bitbloom.dev"
+                value={signupData.email}
                 onChange={(e) => {
                   setSignupData({ ...signupData, email: e.target.value });
-                  setError(null);
+                  setSignupError(null);
                 }}
               />
             </div>
@@ -139,9 +146,10 @@ const AuthPage: React.FC = () => {
                 type="password"
                 id="signup-password"
                 placeholder="••••••••"
+                value={signupData.password}
                 onChange={(e) => {
                   setSignupData({ ...signupData, password: e.target.value });
-                  setError(null);
+                  setSignupError(null);
                 }}
               />
             </div>
@@ -149,7 +157,7 @@ const AuthPage: React.FC = () => {
               Signup
             </button>
           </form>
-          {error && <p className="text-danger text-center mt-3">{error}</p>}
+          {signupError && <p className="text-danger text-center mt-3">{signupError}</p>}
           <div className="divider">or</div>
           <button className="google-button">
             <img src={googleImg} alt="Google" className="google-icon" />
