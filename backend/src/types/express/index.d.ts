@@ -1,4 +1,5 @@
 import { Request } from 'express';
+import { File } from 'multer'; 
 
 declare global {
   namespace Express {
@@ -6,6 +7,7 @@ declare global {
       user?: {
         id: string;
       };
+      file?: File;
     }
   }
 }

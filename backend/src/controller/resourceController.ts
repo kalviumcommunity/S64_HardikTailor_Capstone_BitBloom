@@ -2,19 +2,23 @@ import { Request, Response } from 'express';
 import Resource from '../models/Resource';
 import mongoose from 'mongoose';
 
-export const createResource = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const createResource = async (req: Request, res: Response): Promise<Response> => {
   try {
     const { title, description, isFree, price } = req.body;
+    const file = req.file as Express.Multer.File;
+
+    if (!file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
+    const filePath = file.path;
 
     const newResource = new Resource({
       title,
       description,
       isFree,
       price: isFree ? undefined : price,
-      user: (req as any).user?.id, // Ideally define a CustomRequest interface
+      file: filePath,  
+      user: (req as any).user?.id, 
     });
 
     const savedResource = await newResource.save();
@@ -24,10 +28,8 @@ export const createResource = async (
   }
 };
 
-export const getResources = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+
+export const getResources = async (req: Request, res: Response): Promise<Response> => {
   try {
     const resources = await Resource.find()
       .sort({ createdAt: -1 })
@@ -38,10 +40,7 @@ export const getResources = async (
   }
 };
 
-export const getResourceById = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const getResourceById = async (req: Request, res: Response): Promise<Response> => {
   const { id } = req.params;
 
   try {
@@ -61,13 +60,14 @@ export const getResourceById = async (
   }
 };
 
-export const updateResource = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const updateResource = async (req: Request, res: Response): Promise<Response> => {
   try {
     const { id } = req.params;
     const updatedData = req.body;
+
+    if (req.file) {
+      updatedData.file = req.file.path;
+    }
 
     const updatedResource = await Resource.findByIdAndUpdate(id, updatedData, {
       new: true,
@@ -85,10 +85,7 @@ export const updateResource = async (
   }
 };
 
-export const deleteResource = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const deleteResource = async (req: Request, res: Response): Promise<Response> => {
   const { id } = req.params;
 
   try {

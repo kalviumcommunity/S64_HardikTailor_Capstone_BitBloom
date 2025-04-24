@@ -31,7 +31,7 @@ const AuthPage: React.FC = () => {
     if (!isValidEmail(loginData.email)) {
       return setLoginError("Enter a valid email address.");
     }
-
+      
     try {
       setLoading(true);
       const res = await fetch('http://localhost:5000/api/auth/login', {
