@@ -4,9 +4,9 @@ interface IResource extends Document {
   title: string;
   description: string;
   isFree: boolean;
-  price?: number;
-  file?: string;
-  user: mongoose.Schema.Types.ObjectId; // Reference to User
+  price?: number; 
+  file?: string; 
+  user: mongoose.Schema.Types.ObjectId; 
 }
 
 const resourceSchema = new mongoose.Schema<IResource>(
@@ -16,6 +16,9 @@ const resourceSchema = new mongoose.Schema<IResource>(
     isFree: { type: Boolean, required: true },
     price: {
       type: Number,
+      required: function (this: IResource) {
+        return !this.isFree; 
+      },
       validate: {
         validator: function (this: IResource, value: number) {
           if (!this.isFree && (value === undefined || value === null)) {
@@ -26,9 +29,8 @@ const resourceSchema = new mongoose.Schema<IResource>(
         message: 'Price is required if the resource is paid',
       },
     },
-    file: { type: String }, // will store file path later 
-    user: {type: mongoose.Schema.Types.ObjectId,ref: "User",  required: true,
-    },
+    file: { type: String }, 
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   },
   { timestamps: true }
 );

@@ -9,23 +9,66 @@ const UploadResource: React.FC = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
-  const [isFree, setIsFree] = useState(true); 
+  const [isFree, setIsFree] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
+    if (event.target.files?.length) {
       setSelectedFile(event.target.files[0]);
     }
   };
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    if (event.dataTransfer.files && event.dataTransfer.files.length > 0) {
+    if (event.dataTransfer.files?.length) {
       setSelectedFile(event.dataTransfer.files[0]);
     }
   };
 
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
+  };
+
+  const handleUpload = async () => {
+    if (!title || !description || (!isFree && !price)) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('isFree', JSON.stringify(isFree));
+    if (!isFree) formData.append('price', price);
+    if (selectedFile) formData.append('file', selectedFile);
+
+    try {
+      setLoading(true);
+      const token = localStorage.getItem('token'); // Assume auth token is stored
+      const response = await axios.post('http://localhost:5000/api/resources', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setSuccess('Resource uploaded successfully!');
+      console.log(response.data);
+      // Clear the form after successful upload
+      setTitle('');
+      setDescription('');
+      setPrice('');
+      setSelectedFile(null);
+      setIsFree(true);
+      setError('');
+    } catch (error: any) {
+      setError(error.response?.data?.message || 'Failed to upload resource.');
+      console.error('Upload error:', error.response?.data || error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -54,35 +97,32 @@ const UploadResource: React.FC = () => {
                 <label htmlFor="fileInput" className="btn btn-primary">
                   Browse files
                 </label>
-                <input
-                  type="file"
-                  id="fileInput"
-                  style={{ display: 'none' }}
-                  onChange={handleFileSelect}
-                />
+                <input type="file" id="fileInput" style={{ display: 'none' }} onChange={handleFileSelect} />
               </>
             )}
           </div>
 
           <div className="mb-3">
-            <label htmlFor="title" className="form-label">Title</label>
+            <label htmlFor="title" className="form-label">
+              Title
+            </label>
             <input
               type="text"
               className="form-control"
               id="title"
-              placeholder="Enter title for your resource"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
           </div>
 
           <div className="mb-3">
-            <label htmlFor="description" className="form-label">Description</label>
+            <label htmlFor="description" className="form-label">
+              Description
+            </label>
             <textarea
               className="form-control"
               id="description"
               rows={3}
-              placeholder="Enter description for your resource"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             ></textarea>
@@ -103,22 +143,34 @@ const UploadResource: React.FC = () => {
 
           {!isFree && (
             <div className="mb-3">
-              <label htmlFor="price" className="form-label">Set Price (₹)</label>
+              <label htmlFor="price" className="form-label">
+                Set Price (₹)
+              </label>
               <input
                 type="number"
                 className="form-control"
                 id="price"
-                placeholder="Enter value"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
               />
             </div>
           )}
 
-          <div className="d-flex justify-content-end">
-            <button className="btn btn-secondary me-2" onClick={() => window.history.back()}>Cancel</button>
-            <button className="btn btn-primary" >Upload</button>
-          </div>
+          {loading ? (
+            <div>Uploading...</div>
+          ) : (
+            <div className="d-flex justify-content-end">
+              <button className="btn btn-secondary me-2" onClick={() => window.history.back()}>
+                Cancel
+              </button>
+              <button className="btn btn-primary" onClick={handleUpload}>
+                Upload
+              </button>
+            </div>
+          )}
+
+          {error && <div className="alert alert-danger mt-3">{error}</div>}
+          {success && <div className="alert alert-success mt-3">{success}</div>}
         </div>
       </div>
       <Footer />
