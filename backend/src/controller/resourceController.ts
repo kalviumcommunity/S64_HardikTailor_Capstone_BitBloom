@@ -66,7 +66,7 @@ export const updateResource = async (req: Request, res: Response): Promise<Respo
     const updatedData = req.body;
 
     if (req.file) {
-      updatedData.fileUrl = req.file.path;
+      updatedData.file = req.file.path;
     }
 
     const updatedResource = await Resource.findByIdAndUpdate(id, updatedData, {
