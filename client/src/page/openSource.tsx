@@ -20,7 +20,7 @@ const OpenSource: React.FC = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/projects'); 
+        const response = await fetch('http://localhost:5000/api/project'); 
         if (!response.ok) throw new Error('Failed to fetch projects');
         const data = await response.json();
         setProjects(data);
@@ -37,8 +37,8 @@ const OpenSource: React.FC = () => {
   return (
     <>
       <Navbar />
-      <div style={{ backgroundColor: '#f2f2f2', minHeight: '100vh' }}>
         {/* Hero Section */}
+        <div style={{ backgroundColor: '#F5F5F5' }}>
         <div className="container py-5">
           <div className="row align-items-center g-5">
             <div className="col-lg-6 text-center text-lg-start">
@@ -57,10 +57,11 @@ const OpenSource: React.FC = () => {
                 alt="Open Source Projects"
                 className="img-fluid rounded-3 shadow-sm"
                 style={{ maxHeight: '600px', width: '600px', objectFit: 'cover' }}
-              />
+                />
             </div>
           </div>
         </div>
+      </div>
 
         {/* Projects Section */}
         <div className="container py-5">
@@ -114,7 +115,6 @@ const OpenSource: React.FC = () => {
             <button className="btn btn-primary px-5 py-2">Upload & Share</button>
           </div>
         </div>
-      </div>
       <Footer />
     </>
   );

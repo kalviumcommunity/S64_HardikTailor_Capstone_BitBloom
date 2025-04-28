@@ -61,7 +61,6 @@ const Footer = () => {
               width="55"
               style={{ objectFit: 'cover', borderRadius: '5px' }}
             />
-            <span className="fw-semibold">BitBloom</span>
           </div>
           <div>© 2025 BitBloom. All rights reserved.</div>
         </div>
