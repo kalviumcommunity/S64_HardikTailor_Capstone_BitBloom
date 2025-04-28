@@ -23,3 +23,4 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
     return res.status(401).json({ message: "Unauthorized: Invalid token" });
   }
 };
+
