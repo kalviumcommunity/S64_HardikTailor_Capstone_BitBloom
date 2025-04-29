@@ -14,7 +14,7 @@ const HomePage: React.FC = () => {
 
 <div
   className="hero-section d-flex flex-column flex-md-row align-items-center justify-content-center gap-4 px-4 py-5"
-  style={{ backgroundColor: '#F5F5F5' }}
+  style={{ backgroundColor: 'light white' }}
 >
   {/* Left Content */}
   <div className="text-center text-md-start mb-4 mb-md-0">
@@ -29,7 +29,7 @@ const HomePage: React.FC = () => {
 
         <Dropdown.Menu>
           <Dropdown.Item href="/uploadresource">Resource</Dropdown.Item>
-          <Dropdown.Item href="/upload/opensource">Open Source Project</Dropdown.Item>
+          <Dropdown.Item href="/uploadproject">Open Source Project</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
 
@@ -44,7 +44,7 @@ const HomePage: React.FC = () => {
       src={hero}
       alt="Hero Illustration"
       className="img-fluid"
-      style={{ maxWidth: '400px', height: 'auto' }}
+      style={{ maxWidth: '470px', height: 'auto' }}
     />
   </div>
 </div>

@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import googleImg from '../assets/google.png';
+import { GoogleLogin, CredentialResponse } from "@react-oauth/google";
+import googleImg from "../assets/google.png";
 import "../styles/auth.css";
 
 const AuthPage: React.FC = () => {
-  const [loginData, setLoginData] = useState({ email: '', password: '' });
-  const [signupData, setSignupData] = useState({ username: '', email: '', password: '' });
+  const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const [signupData, setSignupData] = useState({ username: "", email: "", password: "" });
   const [loginError, setLoginError] = useState<string | null>(null);
   const [signupError, setSignupError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
   const [isFlipped, setIsFlipped] = useState(false);
+  const navigate = useNavigate();
 
   const toggleFlip = () => setIsFlipped(!isFlipped);
 
@@ -20,9 +21,10 @@ const AuthPage: React.FC = () => {
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   };
 
-  const isValidEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const isValidEmail = (email: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!loginData.email || !loginData.password) {
@@ -31,27 +33,33 @@ const AuthPage: React.FC = () => {
     if (!isValidEmail(loginData.email)) {
       return setLoginError("Enter a valid email address.");
     }
-      
+
     try {
       setLoading(true);
-      const res = await fetch('http://localhost:5000/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(loginData),
       });
+
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
-      localStorage.setItem('token', data.token);
-      navigate('/');
-    } catch (err: any) {
-      setLoginError(err.message);
-      setSignupError(null);
+      if (!res.ok) throw new Error(data.message || "Login failed.");
+
+      localStorage.setItem("token", data.token);
+      navigate("/");
+    } catch (err) {
+      if (err instanceof Error) {
+        setLoginError(err.message);
+        setSignupError(null);
+      } else {
+        setLoginError("An unexpected error occurred.");
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSignup = async (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!signupData.username || !signupData.email || !signupData.password) {
@@ -66,20 +74,61 @@ const AuthPage: React.FC = () => {
 
     try {
       setLoading(true);
-      const res = await fetch('http://localhost:5000/api/auth/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("http://localhost:5000/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(signupData),
       });
+
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
+      if (!res.ok) throw new Error(data.message || "Signup failed.");
+
       setIsFlipped(false);
-    } catch (err: any) {
-      setSignupError(err.message);
-      setLoginError(null);
+    } catch (err) {
+      if (err instanceof Error) {
+        setSignupError(err.message);
+        setLoginError(null);
+      } else {
+        setSignupError("An unexpected error occurred.");
+      }
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleGoogleLoginSuccess = async (response: CredentialResponse) => {
+    if (!response.credential) {
+      setLoginError("Google login failed: No credential received.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const res = await fetch("http://localhost:5000/api/auth/google-auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: response.credential }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Google login failed.");
+
+      localStorage.setItem("token", data.token);
+      navigate("/home");
+    } catch (err) {
+      if (err instanceof Error) {
+        console.error("Google Login Error:", err.message);
+        setLoginError(err.message);
+      } else {
+        setLoginError("An unexpected Google login error occurred.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleLoginError = () => {
+    setLoginError("Google login was unsuccessful. Please try again.");
   };
 
   return (
@@ -112,7 +161,7 @@ const AuthPage: React.FC = () => {
               <input
                 type="password"
                 id="login-password"
-                placeholder="••••••••"
+                placeholder="Enter-your-Password"
                 value={loginData.password}
                 onChange={(e) => {
                   setLoginData({ ...loginData, password: e.target.value });
@@ -125,11 +174,15 @@ const AuthPage: React.FC = () => {
             </button>
           </form>
           {loginError && <p className="text-danger text-center mt-3">{loginError}</p>}
+
           <div className="divider">or</div>
-          <button className="google-button">
-            <img src={googleImg} alt="Google" className="google-icon" />
-            Continue with Google
-          </button>
+
+          {/* Google Login */}
+          <GoogleLogin 
+            onSuccess={handleGoogleLoginSuccess}
+            onError={handleGoogleLoginError}
+          />
+
           <p className="toggle-text">
             New to BitBloom?{" "}
             <span onClick={toggleFlip} className="toggle-link">
@@ -173,7 +226,7 @@ const AuthPage: React.FC = () => {
               <input
                 type="password"
                 id="signup-password"
-                placeholder="••••••••"
+                placeholder="Enter-your-Password"
                 value={signupData.password}
                 onChange={(e) => {
                   setSignupData({ ...signupData, password: e.target.value });
@@ -186,11 +239,15 @@ const AuthPage: React.FC = () => {
             </button>
           </form>
           {signupError && <p className="text-danger text-center mt-3">{signupError}</p>}
+
           <div className="divider">or</div>
-          <button className="google-button">
-            <img src={googleImg} alt="Google" className="google-icon" />
-            Sign up with Google
-          </button>
+
+          <div className="divider">or</div>
+          <GoogleLogin
+          onSuccess={handleGoogleLoginSuccess} 
+          onError={handleGoogleLoginError}
+          />
+
           <p className="toggle-text">
             Already a member?{" "}
             <span onClick={toggleFlip} className="toggle-link">

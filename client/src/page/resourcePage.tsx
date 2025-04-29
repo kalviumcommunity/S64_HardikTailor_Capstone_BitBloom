@@ -41,10 +41,11 @@ const Resources: React.FC = () => {
   
     <>
       <Navbar />
-      <div style={{ backgroundColor: '#f2f2f2', minHeight: '100vh' }}>
+      <div>
         {/* Hero Section */}
+        <div style={{ backgroundColor: '#F5F5F5' }}>
         <div className="container py-5">
-          <div className="row align-items-center g-5">
+          <div className="row align-items-center g-5" >
             <div className="col-lg-6 text-center text-lg-start">
               <h1 className="display-5 fw-bold mb-4">Discover & Monetize Digital Resources</h1>
               <p className="lead mb-4">
@@ -61,10 +62,11 @@ const Resources: React.FC = () => {
                 src={heroImage}
                 alt="Digital Resources"
                 className="img-fluid rounded-3 shadow-sm"
-                style={{ maxHeight: '400px', objectFit: 'contain' }}
-              />
+                style={{ maxHeight: '460px', objectFit: 'contain' }}
+                />
             </div>
           </div>
+        </div>
         </div>
 
         {/* Resource Cards Section */}

@@ -7,7 +7,7 @@ interface DecodedToken {
   id: string;
   email: string;
 }
-
+                                                        
 export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const token = req.headers.authorization?.split(" ")[1];
 
@@ -23,3 +23,4 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
     return res.status(401).json({ message: "Unauthorized: Invalid token" });
   }
 };
+

@@ -1,25 +1,74 @@
 import React from 'react';
-import {  Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import ResourcesPage from '../src/page/resourcePage';
 import ExplorePage from '../src/page/Explore';
 import UploadResource from './page/uploadResource';
-import ResourceDetails from './page/resourceDeatils';
+import ResourceDetails from './components/resourceDeatils';
 import HomePage from './page/Home';
-import OpenSource from './page/projectPage';
+import OpenSource from './page/openSource';
 import Auth from './page/auth';
-
+import CodingPage from './page/codingPage';
+import UploadProject from './page/uploadProject';
+import ProtectedRoute from './components/ProtectedRoute'; 
 
 const App: React.FC = () => {
   return (
-      <Routes>
-        <Route path = '/' element= {<HomePage />} />
-        <Route path="/explore" element={<ExplorePage />} />
-        <Route path="/resource" element={<ResourcesPage />} />
-        <Route path ="/opensource" element={<OpenSource />} />
-        <Route path='/uploadresource' element={<UploadResource />} />
-        <Route path="/resources/:id" element={<ResourceDetails />} />
-        <Route path ="/auth" element={<Auth />} />
-      </Routes>
+    <Routes>
+      {/* Public Routes */}
+      <Route path="/" element={<ExplorePage />} />
+      <Route path="/auth" element={<Auth />} />
+
+      {/* Protected Routes */}
+      <Route path="/resource" element={<ProtectedRoute> <ResourcesPage/> </ProtectedRoute>} />
+      <Route
+        path="/home"
+        element={
+          <ProtectedRoute>
+            <HomePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/opensource"
+        element={<ProtectedRoute> <OpenSource /> </ ProtectedRoute>
+        }
+      />
+      <Route
+        path="/uploadresource"
+        element={
+          <ProtectedRoute>
+            <UploadResource />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/resources/:id"
+        element={
+          <ProtectedRoute>
+            <ResourceDetails />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/uploadproject"
+        element={
+          <ProtectedRoute>
+            <UploadProject />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/coding"
+        element={
+          <ProtectedRoute>
+            <CodingPage />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* If the user types something invalid, redirect to Explore */}
+      <Route path="*" element={<Navigate to="/" />} />
+    </Routes>
   );
 };
 

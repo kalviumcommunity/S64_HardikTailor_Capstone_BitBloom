@@ -1,0 +1,44 @@
+/* Animate the entire navbar on load */
+.animated-navbar {
+    animation: slideDown 0.8s ease;
+  }
+  
+  
+  /* Navbar links stylish hover */
+  .nav-link-animated {
+    position: relative;
+    font-weight: 500;
+    color: #333;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-link-animated::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    background-color: #0c1620;
+    left: 0;
+    bottom: -5px;
+    transition: width 0.3s ease;
+  }
+  
+  .nav-link-animated:hover {
+    color: #007bff;
+  }
+  
+  .nav-link-animated:hover::after {
+    width: 100%;
+  }
+  
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
