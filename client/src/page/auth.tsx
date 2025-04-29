@@ -242,10 +242,11 @@ const AuthPage: React.FC = () => {
 
           <div className="divider">or</div>
 
-          <button className="google-button">
-            <img src={googleImg} alt="Google" className="google-icon" />
-            Sign up with Google
-          </button>
+          <div className="divider">or</div>
+          <GoogleLogin
+          onSuccess={handleGoogleLoginSuccess} 
+          onError={handleGoogleLoginError}
+          />
 
           <p className="toggle-text">
             Already a member?{" "}
