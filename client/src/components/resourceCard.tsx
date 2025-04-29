@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-const ResourceCard = ({ title, description, _id, ...rest }: any) => {
+const ResourceCard = ({ title, description, _id }: any) => {
   const navigate = useNavigate();
 
   return (

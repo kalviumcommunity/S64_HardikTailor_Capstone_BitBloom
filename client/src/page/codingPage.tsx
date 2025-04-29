@@ -4,8 +4,18 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import codingHero from "../assets/coding-hero.png"; // adjust path as needed
 
+type Difficulty = "Easy" | "Medium" | "Hard";
+
+interface ChallengeCardProps {
+  title: string;
+  description: string;
+  difficulty: Difficulty;
+  category: string;
+  time: string;
+}
+
 const CodingPage: React.FC = () => {
-  const challenges = [
+  const challenges: ChallengeCardProps[] = [
     {
       title: "Max Subarray Sum",
       description: "Find the contiguous subarray with the maximum sum",

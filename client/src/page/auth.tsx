@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin, CredentialResponse } from "@react-oauth/google";
-import googleImg from "../assets/google.png";
 import "../styles/auth.css";
 
 const AuthPage: React.FC = () => {
