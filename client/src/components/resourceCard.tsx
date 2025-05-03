@@ -3,7 +3,15 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from '../styles/ResourceCard.module.css';
 
-const ResourceCard = ({ title, description, _id }: any) => {
+// Define props type
+interface ResourceCardProps {
+  _id: string;
+  title: string;
+  description: string;
+  file?: string;
+}
+
+const ResourceCard: React.FC<ResourceCardProps> = ({ title, description, _id }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -41,7 +49,7 @@ const ResourceCard = ({ title, description, _id }: any) => {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              transition={{ type: "spring", duration: 0.5 }}
+              transition={{ type: 'spring', duration: 0.5 }}
               className={styles.modalContent}
               onClick={(e) => e.stopPropagation()}
             >

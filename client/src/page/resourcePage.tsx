@@ -7,10 +7,12 @@ import { useNavigate } from 'react-router-dom';
 
 
 interface Resource {
+  _id: string;
   title: string;
   description: string;
   category: string;
   readTime: string;
+  file?: string;
 }
 
 
@@ -27,15 +29,20 @@ const Resources: React.FC = () => {
         if (!response.ok) throw new Error('Failed to fetch resources');
         const data = await response.json();
         setResources(data);
-      } catch (err: any) {
-        setError(err.message || 'Something went wrong');
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('Something went wrong');
+        }
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchResources();
   }, []);
+  
 
   return (
   

@@ -43,7 +43,8 @@ const ResourceDetails: React.FC = () => {
       });
   
       // Added content type detection
-      const contentType = res.headers['content-type'];
+      const contentType = res.headers['content-type'] as keyof typeof extensionMap;
+
       
       // Added file extension mapping
       const extensionMap = {
