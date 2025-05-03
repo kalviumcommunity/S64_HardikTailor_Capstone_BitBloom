@@ -30,7 +30,8 @@ const ExplorePage = () => {
               
             </Col>
             <Col md={6} className="text-center mt-4 mt-md-0">
-              <img src={heroImage} alt="Hero" className="img-fluid rounded" />
+              <img src={heroImage} alt="Hero" className="img-fluid rounded"  style={{ maxWidth: '550px', height: '550px' }}/>
+              
             </Col>
           </Row>
         </Container>

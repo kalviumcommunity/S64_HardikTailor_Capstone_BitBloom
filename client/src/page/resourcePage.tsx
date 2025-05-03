@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ResourceCard from '../components/resourceCard';
-import heroImage from '../assets/resource.png';
+import heroImage from '../assets/Working remotely.gif';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useNavigate } from 'react-router-dom';
@@ -43,7 +43,7 @@ const Resources: React.FC = () => {
       <Navbar />
       <div>
         {/* Hero Section */}
-        <div style={{ backgroundColor: '#F5F5F5' }}>
+        <div style={{ backgroundColor: '#f8f9fa' }}>
         <div className="container py-5">
           <div className="row align-items-center g-5" >
             <div className="col-lg-6 text-center text-lg-start">
@@ -61,7 +61,7 @@ const Resources: React.FC = () => {
               <img
                 src={heroImage}
                 alt="Digital Resources"
-                className="img-fluid rounded-3 shadow-sm"
+                className="img-fluid "
                 style={{ maxHeight: '460px', objectFit: 'contain' }}
                 />
             </div>
@@ -69,29 +69,42 @@ const Resources: React.FC = () => {
         </div>
         </div>
 
-        {/* Resource Cards Section */}
-        <div className="container py-5">
-          <div className="mb-5">
-            <h2 className="mb-4 fw-semibold">Latest Insights and Trends</h2>
-            {loading ? (
-              <p>Loading resources...</p>
-            ) : error ? (
-              <p className="text-danger">{error}</p>
-            ) : (
-              <div className="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4">
-                {resources.map((res, idx) => (
-                  <div className="col d-flex justify-content-center" key={idx}>
-                    <ResourceCard {...res} />
-                  </div>
-                ))}
-              </div>
-            )}
-            <div className="text-end mt-4">
-              <button className="btn btn-link text-decoration-none">
-                View all →
-              </button>
-            </div>
+       {/* Resource Cards Section */}
+<div className="container py-5">
+  <div className="mb-5">
+    <h2 className="mb-4 fw-semibold">Latest Insights and Trends</h2>
+
+    {/* Loading and Error Handling */}
+    {loading ? (
+      <p>Loading resources...</p>
+    ) : error ? (
+      <p className="text-danger">{error}</p>
+    ) : (
+      <div className="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4">
+        {/* Mapping over resources */}
+        {resources.map((res, idx) => (
+          <div className="col d-flex justify-content-center" key={idx}>
+            {/* Passing the resource data to ResourceCard */}
+            <ResourceCard 
+              title={res.title} 
+              description={res.description} 
+              _id={res._id} 
+              file={res.file} // Assuming `file` is part of the resource object
+            />
           </div>
+        ))}
+      </div>
+    )}
+
+    {/* View All Button */}
+    <div className="text-end mt-4">
+      <button className="btn btn-link text-decoration-none">
+        View all →
+      </button>
+    </div>
+  </div>
+</div>
+
 
           {/* Trending Section */}
           <div className="mb-5">
@@ -122,7 +135,7 @@ const Resources: React.FC = () => {
             <button className="btn btn-primary px-5 py-2" >Start Uploading</button>
           </div>
         </div>
-      </div>
+     
       <Footer />
     </>
   );

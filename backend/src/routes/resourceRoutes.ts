@@ -3,8 +3,7 @@ import {
   createResource,
   getResources,
   getResourceById,
-  updateResource,
-  deleteResource,
+  downloadResource
 } from '../controller/resourceController';
 import { authMiddleware } from '../middleware/authMiddleware';
 import upload from '../utils/multerConfig';
@@ -14,8 +13,7 @@ const router = express.Router();
 router.post('/', authMiddleware, upload.single('file'), createResource);
 router.get('/', getResources);
 router.get('/:id', getResourceById);
-router.put('/:id', authMiddleware, updateResource);
-router.delete('/:id', authMiddleware, deleteResource);
+router.get('/download/:id' , authMiddleware , downloadResource);
 
 export default router;
             

@@ -240,8 +240,6 @@ const AuthPage: React.FC = () => {
           {signupError && <p className="text-danger text-center mt-3">{signupError}</p>}
 
           <div className="divider">or</div>
-
-          <div className="divider">or</div>
           <GoogleLogin
           onSuccess={handleGoogleLoginSuccess} 
           onError={handleGoogleLoginError}

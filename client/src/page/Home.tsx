@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import hero from '../assets/home.gif';
+import hero from '../assets/homeHero.gif';
 import { Button, Card, Container, Row, Col , Dropdown } from 'react-bootstrap';
 import '../styles/Home.css';
 

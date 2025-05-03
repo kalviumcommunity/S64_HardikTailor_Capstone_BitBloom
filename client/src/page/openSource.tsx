@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ProjectCard from '../components/projectCard';
-import heroImage from '../assets/Opensource.gif';
+import heroImage from '../assets/OpensourceHero.gif';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useNavigate } from 'react-router-dom';
@@ -38,7 +38,7 @@ const OpenSource: React.FC = () => {
     <>
       <Navbar />
         {/* Hero Section */}
-        <div style={{ backgroundColor: '#F5F5F5' }}>
+        <div style={{ backgroundColor: '#f8f9fa' }}>
         <div className="container py-5">
           <div className="row align-items-center g-5">
             <div className="col-lg-6 text-center text-lg-start">
@@ -55,8 +55,8 @@ const OpenSource: React.FC = () => {
               <img
                 src={heroImage}
                 alt="Open Source Projects"
-                className="img-fluid rounded-3 shadow-sm"
-                style={{ maxHeight: '600px', width: '600px', objectFit: 'cover' }}
+                className="img-fluid rounded"
+                style={{ maxHeight: '600px', width: '600px' }}
                 />
             </div>
           </div>
