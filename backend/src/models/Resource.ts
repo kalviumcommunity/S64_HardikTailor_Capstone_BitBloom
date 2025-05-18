@@ -29,7 +29,7 @@ const resourceSchema = new mongoose.Schema<IResource>(
         message: 'Price is required if the resource is paid',
       },
     },
-    file: { type: String }, 
+    file: { type: String, required: true }, 
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   },
   { timestamps: true }

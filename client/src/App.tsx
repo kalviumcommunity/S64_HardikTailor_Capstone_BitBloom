@@ -9,6 +9,8 @@ import OpenSource from './page/openSource';
 import Auth from './page/auth';
 import CodingPage from './page/codingPage';
 import UploadProject from './page/uploadProject';
+import ProjectFeed from './page/projectFeed';
+import ResourceFeed from './page/resourceFeed';
 import ProtectedRoute from './components/ProtectedRoute'; 
 
 const App: React.FC = () => {
@@ -62,6 +64,22 @@ const App: React.FC = () => {
         element={
           <ProtectedRoute>
             <CodingPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/projects"
+        element={
+          <ProtectedRoute>
+            <ProjectFeed />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/resources-feed"
+        element={
+          <ProtectedRoute>
+            <ResourceFeed />
           </ProtectedRoute>
         }
       />

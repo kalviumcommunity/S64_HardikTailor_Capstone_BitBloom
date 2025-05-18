@@ -1,11 +1,47 @@
+@import url('./common.css');
+
+/* Auth-specific variables */
+:root {
+  --auth-color: #7C3AED;
+  --auth-light: #9b6af3;
+  --auth-dark: #6022d6;
+  --auth-gradient: linear-gradient(135deg, var(--auth-color), var(--auth-light));
+}
+
 .auth-container {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fff;
-  font-family: 'Segoe UI', sans-serif;
+  background: #f8f9fa;
+  font-family: 'Nunito Sans', sans-serif;
   perspective: 900px;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-container::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: rgba(124, 58, 237, 0.1);
+  z-index: 0;
+}
+
+.auth-container::after {
+  content: '';
+  position: absolute;
+  bottom: -150px;
+  left: -150px;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: rgba(124, 58, 237, 0.1);
+  z-index: 0;
 }
 
 .auth-card {
@@ -14,6 +50,7 @@
   position: relative;
   transform-style: preserve-3d;
   transition: transform 0.8s ease-in-out;
+  z-index: 1;
 }
 
 .auth-card.flipped {
@@ -25,10 +62,13 @@
   height: 100%;
   background: rgba(255, 255, 255, 0.95);
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-lg);
   padding: 2rem;
   position: absolute;
   backface-visibility: hidden;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .front {
@@ -42,7 +82,11 @@
 .card-face h2 {
   text-align: center;
   margin-bottom: 1.5rem;
-  color: #1a237e;
+  background: linear-gradient(90deg, var(--auth-dark), var(--auth-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 700;
 }
 
 .input-group {
@@ -52,56 +96,100 @@
 .input-group label {
   display: block;
   margin-bottom: 0.3rem;
-  color: #333;
+  color: var(--text-primary);
   font-weight: 500;
 }
 
 .input-group input {
   width: 100%;
-  padding: 0.6rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+  padding: 0.8rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
   outline: none;
-  transition: border 0.3s ease;
+  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 .input-group input:focus {
-  border-color: #1a237e;
+  border-color: var(--auth-color);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
 }
 
 .auth-button {
   width: 100%;
-  background:#3B82F6;
-  color:white;
+  background: var(--auth-gradient);
+  background-size: 200% 200%;
+  animation: gradientFlow 3s ease infinite;
+  color: white;
   padding: 0.8rem;
   border: none;
-  border-radius: 15px;
+  border-radius: 12px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
 }   
 
 .auth-button:hover {
-  background-color: #7C3AED;
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg), 0 0 15px rgba(124, 58, 237, 0.4);
+}
+
+.auth-button:active {
+  transform: translateY(0);
+}
+
+.auth-button::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0.1) 20%,
+    rgba(255, 255, 255, 0.3) 40%,
+    transparent 60%
+  );
+  transform: rotate(25deg);
+  transition: opacity 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.auth-button:hover::before {
+  animation: shimmer 0.8s forwards;
+  opacity: 1;
 }
 
 .toggle-text {
   text-align: center;
   margin-top: 1rem;
   font-size: 0.9rem;
+  color: var(--text-secondary);
 }
 
 .toggle-link {
-  color: #1a237e;
+  color: var(--auth-color);
   cursor: pointer;
   font-weight: bold;
+  transition: all 0.3s ease;
 }
+
+.toggle-link:hover {
+  text-decoration: underline;
+}
+
 .divider {
   text-align: center;
   margin: 1rem 0;
   font-size: 0.85rem;
-  color: #aaa;
+  color: var(--text-secondary);
   position: relative;
 }
 
@@ -112,7 +200,7 @@
   top: 50%;
   width: 40%;
   height: 1px;
-  background: #ccc;
+  background: var(--border-color);
 }
 
 .divider::before {
@@ -125,12 +213,12 @@
 
 .google-button {
   width: 100%;
-  background-color: #fff;
-  color: #444;
-  border: 1px solid #ddd;
+  background-color: white;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
   padding: 0.7rem;
   font-size: 0.95rem;
-  border-radius: 8px;
+  border-radius: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -138,11 +226,27 @@
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
 }
 
 .google-button:hover {
   background-color: #f5f5f5;
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
 }
-.google-icon{
+
+.google-button:active {
+  transform: translateY(0);
+}
+
+.google-icon {
   height: 28px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .auth-card {
+    width: 90%;
+    max-width: 400px;
+  }
 }

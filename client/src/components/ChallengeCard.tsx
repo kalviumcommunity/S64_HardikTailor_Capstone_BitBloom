@@ -6,9 +6,10 @@ type ChallengeCardProps = {
   difficulty: "Easy" | "Medium" | "Hard";
   category: string;
   time: string;
+  link: string;
 };
 
-const ChallengeCard: React.FC<ChallengeCardProps> = ({ title, description, difficulty, category, time }) => {
+const ChallengeCard: React.FC<ChallengeCardProps> = ({ title, description, difficulty, category, time , link}) => {
   return (
     <div className="card shadow-sm" style={{ width: "18rem" }}>
       <div className="card-body">
@@ -21,7 +22,7 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ title, description, diffi
           <span className={`badge bg-${difficulty === "Easy" ? "success" : difficulty === "Medium" ? "warning text-dark" : "danger"}`}>
             {difficulty}
           </span>
-          <button className="btn btn-primary btn-sm">Solve Now</button>
+          <button className="btn btn-primary btn-sm" onClick={() => window.open(link)}>Solve Now</button>
         </div>
       </div>
     </div>

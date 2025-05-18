@@ -5,29 +5,7 @@
 }
 
 
-/* resourcePage */
-.resource-card {
-    transition: transform 0.3s ease;
-  }
-  
-  .resource-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-  }
 
-  /* UploadResource */
-.upload-area {
-    border: 2px dashed #ccc;
-    background-color: #fff;
-    color: #555;
-    cursor: pointer;
-  }
-  
-  .upload-area:hover {
-    background-color: #f9f9f9;
-    border-color: #999;
-  }
-  
  
   
 
