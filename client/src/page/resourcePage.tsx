@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import ResourceCard from '../components/resourceCard';
 import heroImage from '../assets/Working remotely.gif';
 import Navbar from '../components/Navbar';
