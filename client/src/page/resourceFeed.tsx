@@ -3,6 +3,7 @@ import ResourceCard from '../components/resourceCard';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useNavigate } from 'react-router-dom';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 interface Resource {
   _id: string;
@@ -29,7 +30,7 @@ const ResourceFeed: React.FC = () => {
     const fetchResources = async () => {
       try {
         console.log('Fetching resources...');
-        const response = await fetch('http://localhost:5000/api/resources');
+        const response = await fetch(`${API_BASE_URL}/api/resources`);
         if (!response.ok) throw new Error('Failed to fetch resources');
         const data = await response.json();
         console.log('Resources fetched in ResourceFeed:', data);

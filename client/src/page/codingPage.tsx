@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import codingHero from "../assets/coding-hero.png";
 import "../styles/coding.css";
 import "../styles/common.css";
+// const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ;
 
 type Difficulty = "Easy" | "Medium" | "Hard";
 

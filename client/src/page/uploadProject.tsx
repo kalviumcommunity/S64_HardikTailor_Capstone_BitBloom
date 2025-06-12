@@ -6,6 +6,8 @@ import Footer from '../components/Footer';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/UploadProject.module.css';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
 
 const UploadProject: React.FC = () => {
   const navigate = useNavigate();
@@ -46,7 +48,7 @@ const UploadProject: React.FC = () => {
         });
       }, 300);
       
-      const response = await axios.post('http://localhost:5000/api/project/', projectData, {
+      const response = await axios.post(`${API_BASE_URL}/api/project/`, projectData, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,

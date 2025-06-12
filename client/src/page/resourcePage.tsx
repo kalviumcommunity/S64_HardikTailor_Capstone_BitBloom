@@ -7,6 +7,7 @@ import Footer from '../components/Footer';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/ResourcePage.module.css';
 import '../styles/common.css'; // Import common styles
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 interface Resource {
   _id: string;
@@ -55,7 +56,7 @@ const Resources: React.FC = () => {
   useEffect(() => {
     const fetchResources = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/resources'); 
+        const response = await fetch(`${API_BASE_URL}/api/resources`); 
         if (!response.ok) throw new Error('Failed to fetch resources');
         const data = await response.json();
         console.log('Resources fetched:', data);

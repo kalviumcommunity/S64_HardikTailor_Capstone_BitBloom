@@ -3,6 +3,8 @@ import ProjectCard from '../components/projectCard';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useNavigate } from 'react-router-dom';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
 
 interface Project {
   title: string;
@@ -21,7 +23,7 @@ const ProjectFeed: React.FC = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/project');
+        const response = await fetch(`${API_BASE_URL}/api/project`);
         if (!response.ok) throw new Error('Failed to fetch projects');
         const data = await response.json();
         setProjects(data);

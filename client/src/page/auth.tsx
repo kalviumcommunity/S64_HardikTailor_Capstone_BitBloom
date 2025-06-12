@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin, CredentialResponse } from "@react-oauth/google";
 import "../styles/auth.css";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
 
 const AuthPage: React.FC = () => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
@@ -35,7 +37,7 @@ const AuthPage: React.FC = () => {
 
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:5000/api/auth/login", {
+      const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(loginData),
@@ -73,7 +75,7 @@ const AuthPage: React.FC = () => {
 
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:5000/api/auth/signup", {
+      const res = await fetch(`${API_BASE_URL}/api/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(signupData),
@@ -103,7 +105,7 @@ const AuthPage: React.FC = () => {
 
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:5000/api/auth/google-auth", {
+      const res = await fetch(`${API_BASE_URL}/api/auth/google-auth`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token: response.credential }),

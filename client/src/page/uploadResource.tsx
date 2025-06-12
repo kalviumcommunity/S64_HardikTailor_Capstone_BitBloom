@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import axios from 'axios';
 import styles from '../styles/UploadResource.module.css';
+const API_BASE_URL =  import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 const UploadResource: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -85,7 +86,7 @@ const UploadResource: React.FC = () => {
         });
       }, 300);
       
-      const response = await axios.post('http://localhost:5000/api/resources', formData, {
+      const response = await axios.post(`${API_BASE_URL}/api/resources`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,
@@ -113,9 +114,17 @@ const UploadResource: React.FC = () => {
         setError('');
       }, 500);
       
-    } catch (error: any) {
-      setError(error.response?.data?.message || 'Failed to upload resource.');
-      console.error('Upload error:', error.response?.data || error.message);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        setError(error.response?.data?.message || 'Failed to upload resource.');
+        console.error('Upload error:', error.response?.data || error.message);
+      } else if (error instanceof Error) {
+        setError(error.message || 'Failed to upload resource.');
+        console.error('Upload error:', error.message);
+      } else {
+        setError('Failed to upload resource.');
+        console.error('Upload error:', error);
+      }
     } finally {
       setLoading(false);
     }

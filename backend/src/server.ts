@@ -11,7 +11,17 @@ connectDB();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'https://bit-bloom.netlify.app',
+    'https://bitbloom-1zw8.onrender.com'
+  ],
+  credentials: true
+}));
+
+app.options('*', cors()); // Enable preflight for all routes
+
 app.use(express.json());
 
 

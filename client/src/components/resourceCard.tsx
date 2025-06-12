@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import styles from '../styles/ResourceCard.module.css';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
 interface ResourceCardProps {
   _id: string;
   title: string;
@@ -35,7 +37,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ title, description, _id, is
         const token = localStorage.getItem('token');
         
         // Make a request to the download endpoint
-        const response = await fetch(`http://localhost:5000/api/resources/download/${_id}`, {
+        const response = await fetch(`${API_BASE_URL}/api/resources/download/${_id}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }

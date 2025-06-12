@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import logo from '../assets/logo.jpg';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
 interface Resource {
   _id: string;
   title: string;
@@ -62,7 +64,7 @@ const ResourceDetails: React.FC = () => {
   useEffect(() => {
     const fetchResource = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/resources/${id}`);
+        const res = await axios.get(`${API_BASE_URL}/api/resources/${id}`);
         setResource(res.data);
       } catch (error) {
         console.error('Failed to fetch resource:', error);
@@ -93,7 +95,7 @@ const ResourceDetails: React.FC = () => {
         return;
       }
       
-      const endpoint = `http://localhost:5000/api/resources/download/${id}`;
+      const endpoint = `${API_BASE_URL}/api/resources/download/${id}`;
       
       // For both free and paid resources, we'll use the same endpoint
       // but include the token for authentication if available
