@@ -162,4 +162,39 @@ export const downloadResource = async (req: Request, res: Response): Promise<Res
     return undefined; // Add explicit return for TypeScript
   }
 };
+
+
+export const deleteResource = async(req: Request, res: Response): Promise<Response> =>{
+    const{id} = req.params;
+
+    try{
+      const resource = await Resource.findById(id);
+
+      if(!resource){
+        return res.status(400).json({success: false , message: 'Resource not found'});
+      }
+      await Resource.findByIdAndDelete(id);
+       return res.status(200).json({ success: true, message: 'Resource deleted successfully' });
+    } catch(error){
+      console.error("Error deleting resource:", error);
+      return res.status(500).json({success : false , message: 'Server Error'});
+    }
+};
+
+
+export const UpdateResource = async(req: Reequest , res: Response) : Promise<Response>=>{
+  try{
+  const {id} = req.params;
+  const updatedData = req.body;
+  const updatedResource = await Resource.findByIdAndUpdate(id , updatedData ,{new:true , runValidators: true,});
+
+  if(!updatedResource){
+    return res.status(404).json({ message: 'Resource not found' });
+  }
+  return res.status(200).json(updatedResource);
+}catch(error){
+  console.error('Error updating resource:', error);
+  return res.status(500).json({message:'Failed to update resource'});
+}
+};
  
