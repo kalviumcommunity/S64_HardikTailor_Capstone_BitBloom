@@ -1,70 +1,151 @@
-import { Container, Row, Col } from 'react-bootstrap';
 import logo from '../assets/logo.jpg';
+import { FaGithub, FaTwitter, FaLinkedin, FaDiscord, FaBlog } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
+import '../styles/Footer.css';
 
 const Footer = () => {
+  const [year, setYear] = useState<number>(new Date().getFullYear());
+  
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
+
   return (
-    <footer className="bg-white py-5 border-top">
-      <Container className='bg-white'>
+    <footer className="footer">
+      <div className="footer-container">
         {/* Top Content */}
-        <Row>
-          <Col md={4} className="mb-4 mb-md-0">
-            <h5 className="fw-semibold mb-3">Stay Connected with Our Community</h5>
-            <p className="text-muted">
-              Join us in exploring, creating, and sharing digital resources that inspire innovation.
+        <div className="footer-top">
+          <div className="footer-info">
+            <div className="footer-logo-container">
+              <img
+                src={logo}
+                alt="BitBloom Logo"
+                className="footer-logo"
+              />
+              <h4 className="footer-title">BitBloom</h4>
+            </div>
+            <h5 className="footer-tagline">
+              Connect, Create, Collaborate
+            </h5>
+            <p className="footer-description">
+              Join us in exploring, creating, and sharing digital resources that inspire innovation. 
+              BitBloom connects developers, creators, and the broader tech community.
             </p>
-          </Col>
+          </div>
 
-          <Col md={8}>
-            <Row>
-              <Col xs={6} md={4}>
-                <h6 className="fw-bold mb-3">About</h6>
-                <ul className="list-unstyled text-muted">
-                  <li><a href="#" className="text-decoration-none text-muted">Contact</a></li>
-                  <li><a href="#" className="text-decoration-none text-muted">About Us</a></li>
-                  <li><a href="#" className="text-decoration-none text-muted">Support Center</a></li>
-                </ul>
-              </Col>
+          <div className="footer-links-container">
+            <div className="footer-links-column">
+              <h6 className="footer-links-title">About</h6>
+              <ul className="footer-links-list">
+                <li>
+                  <a href="#" className="footer-link">
+                    Contact
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="footer-link">
+                    About Us
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="footer-link">
+                    Support Center
+                  </a>
+                </li>
+              </ul>
+            </div>
 
-              <Col xs={6} md={4}>
-                <h6 className="fw-bold mb-3">Legal</h6>
-                <ul className="list-unstyled text-muted">
-                  <li><a href="#" className="text-decoration-none text-muted">Privacy Policy</a></li>
-                  <li><a href="#" className="text-decoration-none text-muted">Terms of Use</a></li>
-                </ul>
-              </Col>
+            <div className="footer-links-column">
+              <h6 className="footer-links-title">Legal</h6>
+              <ul className="footer-links-list">
+                <li>
+                  <a href="#" className="footer-link">
+                    Privacy Policy
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="footer-link">
+                    Terms of Use
+                  </a>
+                </li>
+              </ul>
+            </div>
 
-              <Col xs={6} md={4}>
-                <h6 className="fw-bold mb-3">Community</h6>
-                <ul className="list-unstyled text-muted">
-                  <li><a href="#" className="text-decoration-none text-muted">GitHub Page</a></li>
-                  <li><a href="#" className="text-decoration-none text-muted">Twitter Feed</a></li>
-                  <li><a href="#" className="text-decoration-none text-muted">LinkedIn Group</a></li>
-                  <li><a href="#" className="text-decoration-none text-muted">Community Forum</a></li>
-                  <li><a href="#" className="text-decoration-none text-muted">Blog Posts</a></li>
-                  <li><a href="#" className="text-decoration-none text-muted">Help Center</a></li>
-                </ul>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
+            <div className="footer-links-column">
+              <h6 className="footer-links-title">Community</h6>
+              <ul className="footer-links-list">
+                <li>
+                  <a 
+                    href="https://github.com/kalviumcommunity/S64_HardikTailor_Capstone_BitBloom" 
+                    className="footer-link"
+                    target="_blank" 
+                    rel="noreferrer"
+                  >
+                    GitHub Repository
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="footer-link">
+                    Community Forum
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="footer-link">
+                    Help Center
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Social Icons */}
+        <div className="social-icons">
+          <a 
+            href="https://github.com/kalviumcommunity/S64_HardikTailor_Capstone_BitBloom" 
+            className="social-icon"
+            target="_blank" 
+            rel="noreferrer"
+          >
+            <FaGithub size={24} />
+          </a>
+          <a href="#" className="social-icon">
+            <FaTwitter size={24} />
+          </a>
+          <a href="#" className="social-icon">
+            <FaLinkedin size={24} />
+          </a>
+          <a href="#" className="social-icon">
+            <FaDiscord size={24} />
+          </a>
+          <a href="#" className="social-icon">
+            <FaBlog size={24} />
+          </a>
+        </div>
 
         {/* Divider */}
-        <hr className="my-4" />
+        <hr className="footer-divider" />
 
         {/* Bottom Row */}
-        <div className="d-flex justify-content-between align-items-center text-muted small">
-          <div className="d-flex align-items-center gap-2">
-            <img
-              src={logo}
-              alt="BitBloom Logo"
-              height="55"
-              width="55"
-              style={{ objectFit: 'cover', borderRadius: '5px' }}
-            />
+        <div className="footer-bottom">
+          <div className="copyright">
+            <p>© {year} BitBloom. All rights reserved.</p>
           </div>
-          <div>© 2025 BitBloom. All rights reserved.</div>
+          <div className="footer-credits">
+            <p>
+              Made with ❤ by the BitBloom Team | 
+              <a 
+                href="https://github.com/kalviumcommunity/S64_HardikTailor_Capstone_BitBloom/issues" 
+                className="report-link"
+                target="_blank" 
+                rel="noreferrer"
+              >
+                Report Bug
+              </a>
+            </p>
+          </div>
         </div>
-      </Container>
+      </div>
     </footer>
   );
 };
