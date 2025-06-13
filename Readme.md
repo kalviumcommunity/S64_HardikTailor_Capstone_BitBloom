@@ -99,7 +99,7 @@ BitBloom was created to address the fragmentation in the developer ecosystem, wh
 
 1. **Clone the repository**
    bash
-   git clone https://github.com/yourusername/BitBloom.git
+   git clone https://github.com/kalviumcommunity/S64_HardikTailor_Capstone_BitBloom
    cd BitBloom
    
 
