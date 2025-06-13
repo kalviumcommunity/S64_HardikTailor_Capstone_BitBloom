@@ -171,7 +171,7 @@ export const deleteResource = async(req: Request, res: Response): Promise<Respon
       const resource = await Resource.findById(id);
 
       if(!resource){
-        return res.status(400).json({success: false , message: 'Resource not found'});
+        return res.status(404).json({success: false , message: 'Resource not found'});
       }
       await Resource.findByIdAndDelete(id);
        return res.status(200).json({ success: true, message: 'Resource deleted successfully' });
@@ -182,7 +182,7 @@ export const deleteResource = async(req: Request, res: Response): Promise<Respon
 };
 
 
-export const UpdateResource = async(req: Reequest , res: Response) : Promise<Response>=>{
+export const UpdateResource = async(req: Request , res: Response) : Promise<Response>=>{
   try{
   const {id} = req.params;
   const updatedData = req.body;

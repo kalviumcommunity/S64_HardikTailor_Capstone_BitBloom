@@ -23,8 +23,8 @@ router.get('/download/:id', authMiddleware, downloadResource);
 
 // Get resource by ID route
 router.get('/:id', getResourceById);
-router.delete('/:id' , deleteResource);
-router.put('/:id', UpdateResource);
+router.delete('/:id', authMiddleware , deleteResource);
+router.put('/:id',authMiddleware, UpdateResource);
 
 export default router;
             
