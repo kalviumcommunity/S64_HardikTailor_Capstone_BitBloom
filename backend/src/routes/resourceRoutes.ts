@@ -3,7 +3,9 @@ import {
   createResource,
   getResources,
   getResourceById,
-  downloadResource
+  downloadResource,
+  deleteResource,
+  UpdateResource
 } from '../controller/resourceController';
 import { authMiddleware } from '../middleware/authMiddleware';
 import upload from '../utils/multerConfig';
@@ -21,6 +23,8 @@ router.get('/download/:id', authMiddleware, downloadResource);
 
 // Get resource by ID route
 router.get('/:id', getResourceById);
+router.delete('/:id', authMiddleware , deleteResource);
+router.put('/:id',authMiddleware, UpdateResource);
 
 export default router;
             
