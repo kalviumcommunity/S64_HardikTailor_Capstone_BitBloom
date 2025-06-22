@@ -48,7 +48,7 @@ const OpenSource: React.FC = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/api/project/`); 
+        const response = await fetch(`${API_BASE_URL}/api/project`); 
         if (!response.ok) throw new Error('Failed to fetch projects');
         const data = await response.json();
         console.log('Projects fetched:', data);
