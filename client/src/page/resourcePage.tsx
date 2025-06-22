@@ -53,29 +53,37 @@ const Resources: React.FC = () => {
     };
   }, [resources]); // Re-run when resources are loaded
   
-  useEffect(() => {
-    const fetchResources = async () => {
-      try {
-        const response = await fetch(`${API_BASE_URL}/api/resources`); 
-        if (!response.ok) throw new Error('Failed to fetch resources');
-        const data = await response.json();
-        console.log('Resources fetched:', data);
-        setResources(data);
-      } catch (err: unknown) {
-        if (err instanceof Error) {
-          console.error('Error fetching resources:', err);
-          setError(err.message);
-        } else {
-          console.error('Unknown error:', err);
-          setError('Something went wrong');
-        }
-      } finally {
-        setLoading(false);
+useEffect(() => {
+  const fetchResources = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/resources`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) throw new Error('Failed to fetch resources');
+      const data = await response.json();
+      console.log('Resources fetched:', data);
+      setResources(data);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error('Error fetching resources:', err);
+        setError(err.message);
+      } else {
+        console.error('Unknown error:', err);
+        setError('Something went wrong');
       }
-    };
-  
-    fetchResources();
-  }, []);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchResources();
+}, []);
+
 
   return (
     <div className="bitbloom-app bg-light text-dark">

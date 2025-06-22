@@ -26,30 +26,38 @@ const ResourceFeed: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
 
-  useEffect(() => {
-    const fetchResources = async () => {
-      try {
-        console.log('Fetching resources...');
-        const response = await fetch(`${API_BASE_URL}/api/resources`);
-        if (!response.ok) throw new Error('Failed to fetch resources');
-        const data = await response.json();
-        console.log('Resources fetched in ResourceFeed:', data);
-        setResources(data);
-      } catch (err: unknown) {
-        if (err instanceof Error) {
-          console.error('Error fetching resources:', err);
-          setError(err.message);
-        } else {
-          console.error('Unknown error:', err);
-          setError('Something went wrong');
+useEffect(() => {
+  const fetchResources = async () => {
+    try {
+      console.log('Fetching resources...');
+      const response = await fetch(`${API_BASE_URL}/api/resources`, {
+        method: 'GET',
+        credentials: 'include', // 🔥 Important for CORS to work with backend credentials
+        headers: {
+          'Content-Type': 'application/json',
         }
-      } finally {
-        setLoading(false);
-      }
-    };
+      });
 
-    fetchResources();
-  }, []);
+      if (!response.ok) throw new Error('Failed to fetch resources');
+      const data = await response.json();
+      console.log('Resources fetched in ResourceFeed:', data);
+      setResources(data);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error('Error fetching resources:', err);
+        setError(err.message);
+      } else {
+        console.error('Unknown error:', err);
+        setError('Something went wrong');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchResources();
+}, []);
+
 
   // Filter resources based on search term and price filter
   const filteredResources = resources.filter(resource => {

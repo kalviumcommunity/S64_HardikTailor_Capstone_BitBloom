@@ -45,40 +45,46 @@ const OpenSource: React.FC = () => {
     };
   }, [projects]); // Re-run when projects are loaded
 
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const response = await fetch(`${API_BASE_URL}/api/project`); 
-        if (!response.ok) throw new Error('Failed to fetch projects');
-        const data = await response.json();
-        console.log('Projects fetched:', data);
-        
-        // Log the structure of the first project to help with debugging
-        if (data && data.length > 0) {
-          console.log('First project structure:', {
-            title: typeof data[0].title,
-            description: typeof data[0].description,
-            techStack: typeof data[0].techStack,
-            techStackValue: data[0].techStack
-          });
+ useEffect(() => {
+  const fetchProjects = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/project/`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
         }
-        
-        setProjects(data);
-      } catch (err: unknown) {
-        if (err instanceof Error) {
-          console.error('Error fetching projects:', err);
-          setError(err.message);
-        } else {
-          console.error('Unknown error:', err);
-          setError('Something went wrong');
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
+      });
 
-    fetchProjects();
-  }, []);
+      if (!response.ok) throw new Error('Failed to fetch projects');
+      const data = await response.json();
+      console.log('Projects fetched:', data);
+
+      if (data && data.length > 0) {
+        console.log('First project structure:', {
+          title: typeof data[0].title,
+          description: typeof data[0].description,
+          techStack: typeof data[0].techStack,
+          techStackValue: data[0].techStack
+        });
+      }
+
+      setProjects(data);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error('Error fetching projects:', err);
+        setError(err.message);
+      } else {
+        console.error('Unknown error:', err);
+        setError('Something went wrong');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchProjects();
+}, []);
 
   return (
     <div className="bitbloom-app bg-light text-dark">

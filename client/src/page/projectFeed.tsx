@@ -20,26 +20,34 @@ const ProjectFeed: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [filter, setFilter] = useState<string>('all');
 
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const response = await fetch(`${API_BASE_URL}/api/project`);
-        if (!response.ok) throw new Error('Failed to fetch projects');
-        const data = await response.json();
-        setProjects(data);
-      } catch (err: unknown) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError('Something went wrong');
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
+useEffect(() => {
+  const fetchProjects = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/project`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-    fetchProjects();
-  }, []);
+      if (!response.ok) throw new Error('Failed to fetch projects');
+      const data = await response.json();
+      setProjects(data);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Something went wrong');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchProjects();
+}, []);
+
 
   // Filter projects based on search term and filter
   const filteredProjects = projects.filter(project => {
