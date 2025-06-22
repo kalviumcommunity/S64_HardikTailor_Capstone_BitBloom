@@ -20,6 +20,22 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
+// ✅ Manually add headers for stubborn CORS cases (especially on Render)
+app.use((req, res, next) => {
+  const allowedOrigins = ['http://localhost:5173', 'https://bit-bloom.netlify.app'];
+  const origin = req.headers.origin;
+
+  if (origin && allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
+
+
 // ✅ Log all incoming requests
 app.use((req, res, next) => {
   console.log(`📩 [${req.method}] ${req.url}`);
