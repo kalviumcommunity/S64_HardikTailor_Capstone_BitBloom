@@ -28,6 +28,8 @@ export const createProject = async (req: Request, res: Response): Promise<Respon
 
 
 export const getProjects = async (req: Request, res: Response): Promise<Response> => {
+  console.log("🔥 [GET] /api/project called from frontend");
+
   try {
     const projects = await Project.find()
       .sort({ createdAt: -1 })
@@ -35,10 +37,11 @@ export const getProjects = async (req: Request, res: Response): Promise<Response
 
     return res.status(200).json(projects);
   } catch (error) {
-    console.error('Error fetching projects:', error);
+    console.error('❌ Error fetching projects:', error);
     return res.status(500).json({ message: 'Failed to fetch projects', error });
   }
 };
+
 
 
 export const getProjectById = async (req: Request, res: Response): Promise<Response> => {
