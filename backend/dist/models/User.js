@@ -49,8 +49,8 @@ const UserSchema = new mongoose_1.Schema({
     },
     password: {
         type: String,
-        required: true,
-        select: false, // hides password from query by default
+        required: false,
+        default: ''
     },
 }, { timestamps: true });
 exports.default = mongoose_1.default.model("User", UserSchema);

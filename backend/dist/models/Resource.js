@@ -10,6 +10,9 @@ const resourceSchema = new mongoose_1.default.Schema({
     isFree: { type: Boolean, required: true },
     price: {
         type: Number,
+        required: function () {
+            return !this.isFree;
+        },
         validate: {
             validator: function (value) {
                 if (!this.isFree && (value === undefined || value === null)) {
@@ -20,9 +23,8 @@ const resourceSchema = new mongoose_1.default.Schema({
             message: 'Price is required if the resource is paid',
         },
     },
-    file: { type: String }, // will store file path later 
-    user: { type: mongoose_1.default.Schema.Types.ObjectId, ref: "User", required: true,
-    },
+    file: { type: String, required: true },
+    user: { type: mongoose_1.default.Schema.Types.ObjectId, ref: 'User', required: true },
 }, { timestamps: true });
 const Resource = mongoose_1.default.model('Resource', resourceSchema);
 exports.default = Resource;

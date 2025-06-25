@@ -3,8 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = exports.signup = void 0;
+exports.googleAuth = exports.login = exports.signup = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const google_auth_library_1 = require("google-auth-library");
+const client = new google_auth_library_1.OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const User_1 = __importDefault(require("../models/User"));
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -55,3 +57,47 @@ const login = async (req, res) => {
     }
 };
 exports.login = login;
+const googleAuth = async (req, res) => {
+    const { token } = req.body;
+    if (!token) {
+        return res.status(400).json({ message: 'Token is required' });
+    }
+    try {
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: process.env.GOOGLE_CLIENT_ID,
+        });
+        const payload = ticket.getPayload();
+        const email = payload?.email;
+        const username = payload?.name || email?.split('@')[0];
+        let user = await User_1.default.findOne({ email });
+        if (!user) {
+            user = new User_1.default({
+                email,
+                username,
+                password: '',
+            });
+            await user.save();
+        }
+        const jwtToken = jsonwebtoken_1.default.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET || 'supersecretstring', {
+            expiresIn: '7d',
+        });
+        res.status(200).json({
+            message: 'Google login successful',
+            token: jwtToken,
+            user: {
+                id: user._id,
+                username: user.username,
+                email: user.email,
+            },
+        });
+    }
+    catch (error) {
+        console.error('Google login error:', error);
+        res.status(500).json({
+            message: 'Something went wrong with Google login',
+            error: error instanceof Error ? error.message : 'Unknown error',
+        });
+    }
+};
+exports.googleAuth = googleAuth;
