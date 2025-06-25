@@ -12,51 +12,43 @@ connectDB();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// ✅ CORS middleware must be first
+
+const allowedOrigins = ['http://localhost:5173', 'https://bit-bloom.netlify.app'];
+
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://bit-bloom.netlify.app'],
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error('Not allowed by CORS'));
+  },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-// ✅ Manually add headers for stubborn CORS cases (especially on Render)
+app.options('*', cors());
+
+
 app.use((req, res, next) => {
-  const allowedOrigins = ['http://localhost:5173', 'https://bit-bloom.netlify.app'];
-  const origin = req.headers.origin;
-
-  if (origin && allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-  }
-
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
-});
-
-
-// ✅ Log all incoming requests
-app.use((req, res, next) => {
-  console.log(`📩 [${req.method}] ${req.url}`);
+  console.log(`📩 [${req.method}] ${req.url} | Origin: ${req.headers.origin}`);
   next();
 });
 
 app.use(express.json());
 
-// ✅ Test route to confirm backend is live
-app.get('/test', (req: Request, res: Response) => {
-  res.json({ message: 'Test route working 🚀' });
-});
 
-// ✅ Main API routes
 app.use('/api/resources', resourceRoutes);
 app.use('/api/auth', userRoutes);
 app.use('/api/project', projectRoutes);
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hi , BitBloom Backend is live! 🚀');
+app.get('/test', (req: Request, res: Response) => {
+  res.json({ message: 'BitBloom backend working fine ✅' });
 });
+
+
+app.get('/', (req: Request, res: Response) => {
+  res.send('Hi, BitBloom Backend is live! 🚀');
+});
+
 
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`);
