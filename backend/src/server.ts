@@ -5,6 +5,7 @@ import connectDB from './config/db';
 import resourceRoutes from './routes/resourceRoutes';
 import userRoutes from './routes/userRoutes';
 import projectRoutes from './routes/projectRoutes';
+import questionRoutes from './routes/questionRoutes';
 
 dotenv.config();
 connectDB();
@@ -39,6 +40,7 @@ app.use(express.json());
 app.use('/api/resources', resourceRoutes);
 app.use('/api/auth', userRoutes);
 app.use('/api/project', projectRoutes);
+app.use('/api/coding' , questionRoutes);
 
 app.get('/test', (req: Request, res: Response) => {
   res.json({ message: 'BitBloom backend working fine ✅' });

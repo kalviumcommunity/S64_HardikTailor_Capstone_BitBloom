@@ -1,26 +1,24 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Container, Row, Col } from 'react-bootstrap';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import CodingQuestions from "../components/CodingQuestions";
+import CodingAssessmentModal from "../components/CodingAssessmentModal";
+import { QuestionFilters } from "../types/Question";
 import codingHero from "../assets/coding-hero.png";
 import "../styles/coding.css";
 import "../styles/common.css";
 // const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ;
 
-type Difficulty = "Easy" | "Medium" | "Hard";
 
-interface ChallengeCardProps {
-  title: string;
-  description: string;
-  difficulty: Difficulty;
-  category: string;
-  time: string;
-  link: string;
-}
 
 const CodingPage: React.FC = () => {
   // Refs for animation elements
   const animatedElements = useRef<HTMLElement[]>([]);
+  
+  // Assessment modal state
+  const [isAssessmentOpen, setIsAssessmentOpen] = useState(false);
+  const [recommendedFilters, setRecommendedFilters] = useState<QuestionFilters | undefined>(undefined);
   
   // Animation observer setup
   useEffect(() => {
@@ -44,56 +42,20 @@ const CodingPage: React.FC = () => {
     };
   }, []);
 
-  const challenges: ChallengeCardProps[] = [
-    {
-      title: "N Queens",
-      description: "Find the contiguous subarray with the maximum sum",
-      difficulty: "Medium",
-      category: "Data Structures | Arrays",
-      time: "~15 min",
-      link: "https://leetcode.com/problems/n-queens"
-    },
-    {
-      title: "N Queens",
-      description: "Find the contiguous subarray with the maximum sum",
-      difficulty: "Medium",
-      category: "Data Structures | Arrays",
-      time: "~15 min",
-      link: "https://leetcode.com/problems/n-queens"
-    },
-    {
-      title: "N Queens",
-      description: "Find the contiguous subarray with the maximum sum",
-      difficulty: "Medium",
-      category: "Data Structures | Arrays",
-      time: "~15 min",
-      link: "https://leetcode.com/problems/n-queens"
-    },
-    {
-      title: "Two Sum",
-      description: "Find indices of two numbers that add up to target",
-      difficulty: "Easy",
-      category: "Algorithms | Hashmaps",
-      time: "~10 min",
-      link: "https://leetcode.com/problems/two-sum/"
-    },
-    {
-      title: "Longest Palindromic Substring",
-      description: "Return the longest palindromic substring",
-      difficulty: "Hard",
-      category: "Dynamic Programming | Strings",
-      time: "~25 min",
-      link: "https://leetcode.com/problems/longest-palindromic-substring/"
-    },
-    {
-      title: "Unique Path",
-      description: "Number of possible unique paths that the robot can take to reach the bottom-right corner",
-      difficulty: "Easy",
-      category: "Algorithms | DP",
-      time: "~10 min",
-      link: "https://leetcode.com/problems/unique-paths/"
-    },
-  ];
+  const handleSolveChallenges = () => {
+    setIsAssessmentOpen(true);
+  };
+
+  const handleAssessmentComplete = (filters: QuestionFilters) => {
+    setRecommendedFilters(filters);
+    // Scroll to the questions section
+    const questionsSection = document.getElementById('questions-section');
+    if (questionsSection) {
+      questionsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+
 
   return (
     <div className="bitbloom-app bg-light text-dark">
@@ -114,7 +76,7 @@ const CodingPage: React.FC = () => {
                 Join a community of learners and take your coding skills to the next level.
               </p>
               <div className="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start animate-in">
-                <button className="coding-accent-btn">
+                <button className="coding-accent-btn" onClick={handleSolveChallenges}>
                   <i className="bi bi-code-slash me-2"></i>Solve Challenges
                 </button>
                 <button className="coding-outline-accent-btn">
@@ -134,38 +96,9 @@ const CodingPage: React.FC = () => {
         </Container>
       </section>
 
-      {/* Challenges Grid */}
-      <section className="py-5 bg-white">
-        <Container className="px-3 px-md-5">
-          <h2 className="section-heading animate-in">Explore Our Exciting Coding Challenges</h2>
-          <Row xs={1} md={2} xl={3} className="g-4">
-            {challenges.map((challenge, index) => (
-              <Col key={index} className="d-flex">
-                <div className="challenge-card animate-in" style={{ width: '100%', animationDelay: `${index * 0.1}s` }}>
-                  <h3 className="challenge-card-title">{challenge.title}</h3>
-                  <p className="challenge-card-description">{challenge.description}</p>
-                  <div className="d-flex justify-content-between mb-3">
-                    <span className="text-muted small">{challenge.category}</span>
-                    <span className="text-muted small">{challenge.time}</span>
-                  </div>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <span className={`challenge-difficulty difficulty-${challenge.difficulty.toLowerCase()}`}>
-                      {challenge.difficulty}
-                    </span>
-                    <a 
-                      href={challenge.link} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="coding-accent-btn btn-sm"
-                    >
-                      Solve
-                    </a>
-                  </div>
-                </div>
-              </Col>
-            ))}
-          </Row>
-        </Container>
+      {/* Coding Questions Section */}
+      <section id="questions-section" className="py-5" style={{ background: '#f8f9fa' }}>
+        <CodingQuestions initialFilters={recommendedFilters} />
       </section>
 
       {/* Call to Action */}
@@ -178,7 +111,7 @@ const CodingPage: React.FC = () => {
                 Join our community of developers and tackle challenges that will help you grow as a programmer.
               </p>
               <div className="d-flex justify-content-center gap-3 flex-wrap animate-in">
-                <button className="coding-accent-btn pulse-animation">
+                <button className="coding-accent-btn pulse-animation" onClick={handleSolveChallenges}>
                   <i className="bi bi-code-slash me-2"></i>Start Coding
                 </button>
                 <button className="coding-outline-accent-btn">
@@ -191,6 +124,13 @@ const CodingPage: React.FC = () => {
       </section>
 
       <Footer />
+      
+      {/* Assessment Modal */}
+      <CodingAssessmentModal 
+        isOpen={isAssessmentOpen}
+        onClose={() => setIsAssessmentOpen(false)}
+        onComplete={handleAssessmentComplete}
+      />
     </div>
   );
 };
