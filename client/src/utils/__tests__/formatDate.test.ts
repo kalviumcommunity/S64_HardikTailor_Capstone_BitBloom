@@ -9,7 +9,9 @@ describe('formatDate()', () => {
     expect(formatDate('2020-01-15')).toBe('15 Jan 2020');
   });
 
-  test('handles invalid date gracefully', () => {
-    expect(formatDate('invalid')).toBe('Invalid Date');
-  });
+ it('handles invalid date gracefully', () => {
+  expect(formatDate('invalid-date')).toBe('Invalid date');
+  expect(formatDate('')).toBe('Invalid date');
+});
+
 });
