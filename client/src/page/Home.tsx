@@ -13,6 +13,17 @@ const HomePage: React.FC = () => {
   // Refs for animation elements
   const animatedElements = useRef<HTMLElement[]>([]);
   
+  // Scroll to section function
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
+  
   // Animation observer setup
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -54,18 +65,32 @@ const HomePage: React.FC = () => {
                     <i className="bi bi-cloud-upload me-2"></i>Upload
                   </Dropdown.Toggle>
 
-                  <Dropdown.Menu>
-                    <Dropdown.Item href="/uploadresource">Resource</Dropdown.Item>
-                    <Dropdown.Item href="/uploadproject">Open Source Project</Dropdown.Item>
+                  <Dropdown.Menu className="shadow-lg border-0" style={{borderRadius: '12px', padding: '0.5rem'}}>
+                    <Dropdown.Item 
+                      href="/uploadresource"
+                      className="rounded-3 mb-1"
+                      style={{padding: '0.7rem 1rem', transition: 'all 0.3s ease'}}
+                    >
+                      <i className="bi bi-file-earmark-text me-2 text-primary"></i>
+                      Resource
+                    </Dropdown.Item>
+                    <Dropdown.Item 
+                      href="/uploadproject"
+                      className="rounded-3"
+                      style={{padding: '0.7rem 1rem', transition: 'all 0.3s ease'}}
+                    >
+                      <i className="bi bi-github me-2 text-primary"></i>
+                      Open Source Project
+                    </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
 
                 {/* Explore Button */}
                 <Button 
                   className="custom-outline-btn" 
-                  onClick={() => navigate('/explore')}
+                  onClick={() => scrollToSection('discover-section')}
                 >
-                  <i className="bi bi-compass me-2"></i>Explore
+                  <i className="bi bi-search me-2"></i>Explore
                 </Button>
               </div>
             </div>
@@ -84,7 +109,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Discover Section */}
-      <Container className="my-5 py-4">
+      <Container id="discover-section" className="my-5 py-4">
         <h3 className="text-center section-heading animate-in">Discover</h3>
         <Row className="g-4">
           <Col md={4}>
@@ -195,11 +220,35 @@ const HomePage: React.FC = () => {
           <h4 className="mb-3 animate-in">Elevate Your Profile Today!</h4>
           <p className="lead mb-4 animate-in">Showcase your talents by uploading your work and engaging with our vibrant community of creators and developers.</p>
           <div className="d-flex justify-content-center gap-3 flex-wrap animate-in">
-            <Button className="custom-btn pulse-animation">
-              <i className="bi bi-upload me-2"></i>Upload
-            </Button>
-            <Button className="custom-outline-btn">
-              <i className="bi bi-share me-2"></i>Share
+            <Dropdown>
+              <Dropdown.Toggle className="custom-btn pulse-animation" id="cta-upload-dropdown">
+                <i className="bi bi-upload me-2"></i>Upload
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu className="shadow-lg border-0" style={{borderRadius: '12px', padding: '0.5rem'}}>
+                <Dropdown.Item 
+                  href="/uploadresource"
+                  className="rounded-3 mb-1"
+                  style={{padding: '0.7rem 1rem', transition: 'all 0.3s ease'}}
+                >
+                  <i className="bi bi-file-earmark-text me-2 text-primary"></i>
+                  Upload Resource
+                </Dropdown.Item>
+                <Dropdown.Item 
+                  href="/uploadproject"
+                  className="rounded-3"
+                  style={{padding: '0.7rem 1rem', transition: 'all 0.3s ease'}}
+                >
+                  <i className="bi bi-github me-2 text-primary"></i>
+                  Upload Project
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+            <Button 
+              className="custom-outline-btn"
+              onClick={() => scrollToSection('discover-section')}
+            >
+              <i className="bi bi-share me-2"></i>Share & Explore
             </Button>
           </div>
         </Container>
