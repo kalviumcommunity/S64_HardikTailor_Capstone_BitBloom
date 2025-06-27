@@ -98,6 +98,17 @@
   100% { transform: rotate(360deg); }
 }
 
+@keyframes pulseGlow {
+  0%, 100% { 
+    transform: scale(1); 
+    box-shadow: var(--shadow-md);
+  }
+  50% { 
+    transform: scale(1.05); 
+    box-shadow: var(--shadow-lg), var(--glow-primary);
+  }
+}
+
 /* Base Styles */
 body {
   font-family: 'Nunito Sans', sans-serif;
@@ -469,4 +480,222 @@ body {
 
 .custom-outline-btn-auth:hover {
   background-color: rgba(124, 58, 237, 0.1);
+}
+
+/* Pulse Animation Class */
+.pulse-animation {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* Enhanced Dropdown Toggle */
+.dropdown-toggle.custom-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.dropdown-toggle.custom-btn::after {
+  border: none;
+  content: '\f282';
+  font-family: 'bootstrap-icons';
+  margin-left: 0.5rem;
+  font-size: 0.875rem;
+  transition: transform 0.3s ease;
+}
+
+.dropdown-toggle.custom-btn:hover::after {
+  transform: translateY(2px);
+}
+
+/* Enhanced Button Hover Effects */
+.custom-btn {
+  position: relative;
+  isolation: isolate;
+}
+
+.custom-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg), var(--glow-primary);
+}
+
+.custom-btn:focus,
+.custom-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-lg), 0 0 0 3px rgba(74, 111, 165, 0.2);
+}
+
+.custom-outline-btn:hover {
+  background-color: rgba(74, 111, 165, 0.1);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-sm);
+  border-color: var(--primary-dark);
+}
+
+.custom-outline-btn:focus,
+.custom-outline-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.2);
+}
+
+/* Icon Enhancement for Buttons */
+.custom-btn i,
+.custom-outline-btn i {
+  transition: transform 0.3s ease;
+}
+
+.custom-btn:hover i,
+.custom-outline-btn:hover i {
+  transform: scale(1.1);
+}
+
+/* Button Group Spacing */
+.d-flex.gap-3 .custom-btn,
+.d-flex.gap-3 .custom-outline-btn {
+  margin: 0;
+}
+
+/* Call to Action Button Enhancements */
+.call-to-action .custom-btn {
+  background: var(--accent-gradient);
+  background-size: 200% 200%;
+  animation: gradientFlow 3s ease infinite;
+}
+
+.call-to-action .custom-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg), var(--glow-accent);
+}
+
+.call-to-action .custom-outline-btn {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}
+
+.call-to-action .custom-outline-btn:hover {
+  background-color: rgba(255, 126, 95, 0.1);
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}
+
+/* Enhanced Dropdown Menu Styling */
+.dropdown-menu {
+  border: none;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 12px !important;
+  box-shadow: var(--shadow-lg);
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.dropdown-item {
+  border-radius: 8px;
+  margin-bottom: 0.25rem;
+  padding: 0.7rem 1rem;
+  transition: all 0.3s ease;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(74, 111, 165, 0.1);
+  color: var(--primary-color);
+  transform: translateX(5px);
+}
+
+.dropdown-item:last-child {
+  margin-bottom: 0;
+}
+
+.dropdown-item i {
+  transition: transform 0.3s ease;
+}
+
+.dropdown-item:hover i {
+  transform: scale(1.1);
+}
+
+/* Button Loading State */
+.custom-btn.loading {
+  position: relative;
+  color: transparent;
+}
+
+.custom-btn.loading::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 50%;
+  left: 50%;
+  margin-left: -8px;
+  margin-top: -8px;
+  border: 2px solid transparent;
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Large Button Variants for Home Page */
+.custom-btn-lg {
+  padding: 1rem 2.5rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  min-width: 180px;
+  border-radius: 14px;
+}
+
+.custom-outline-btn-lg {
+  padding: 1rem 2.5rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  min-width: 180px;
+  border-radius: 14px;
+  border-width: 2.5px;
+}
+
+/* Hero Section Button Styling */
+.hero-section .custom-btn,
+.hero-section .custom-outline-btn {
+  padding: 1rem 2.5rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  min-width: 180px;
+  border-radius: 14px;
+}
+
+.hero-section .custom-outline-btn {
+  border-width: 2.5px;
+}
+
+/* Call to Action Button Styling */
+.call-to-action .custom-btn,
+.call-to-action .custom-outline-btn {
+  padding: 1rem 2.5rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  min-width: 180px;
+  border-radius: 14px;
+}
+
+.call-to-action .custom-outline-btn {
+  border-width: 2.5px;
+}
+
+/* Discover Section Button Styling */
+#discover-section .custom-btn {
+  padding: 0.875rem 2.25rem;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  min-width: 160px;
+  border-radius: 13px;
 }
