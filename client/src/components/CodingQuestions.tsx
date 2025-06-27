@@ -28,40 +28,45 @@
 
     // Fetch questions from API
     useEffect(() => {
-      const fetchQuestions = async () => {
-        try {
-          setLoading(true);
-          setError(null);
-          
-          // Build query parameters based on filters
-          const params: {topics?: string; difficulty?: string}  = {};
-          if (filters.topics.length > 0) {
-            params.topics = filters.topics.join(',');
-          }
-          if (filters.difficulty.length > 0) {
-            params.difficulty = filters.difficulty.join(',');
-          }
+  const fetchQuestions = async () => {
+    try {
+      setLoading(true);
+      setError(null);
 
-          const data = await questionService.getQuestions(params);
-          setQuestions(data.questions);
-          setFilteredQuestions(data.questions);
-          
-          // Extract unique topics for filter options
-          const topics = Array.from(new Set(
-          data.questions.flatMap((q: Question) => q.topics))).sort();
-          setAllTopics(topics);
+      const params: { topics?: string; difficulty?: string } = {};
+      if (filters.topics.length > 0) {
+        params.topics = filters.topics.join(',');
+      }
+      if (filters.difficulty.length > 0) {
+        params.difficulty = filters.difficulty.join(',');
+      }
 
-          
-        } catch (err) {
-          setError('Failed to fetch questions. Please try again.');
-          console.error('Error fetching questions:', err);
-        } finally {
-          setLoading(false);
-        }
-      };
+      const data: Question[] = await questionService.getQuestions(params);
 
-      fetchQuestions();
-    }, [filters]);
+      if (!Array.isArray(data)) {
+        throw new Error('Invalid API response: expected an array of questions');
+      }
+
+      setQuestions(data);
+      setFilteredQuestions(data);
+
+      const topics = Array.from(
+        new Set(data.flatMap((q) => q.topics || []))
+      ).sort();
+
+      setAllTopics(topics);
+    } catch (err) {
+      setError('Failed to fetch questions. Please try again.');
+      console.error('Error fetching questions:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchQuestions();
+}, [filters]);
+
+
 
     // Update filters when initialFilters prop changes
     useEffect(() => {

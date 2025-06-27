@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {  QuestionApiParams, QuestionApiResponse } from '../types/Question';
+import { QuestionApiParams, Question } from '../types/Question';
 
 class QuestionService {
   private baseURL = 'https://bitbloom-1zw8.onrender.com/api/coding/questions';
@@ -7,16 +7,16 @@ class QuestionService {
   /**
    * Fetch coding questions from backend with optional filters.
    * @param params Query parameters like topics and difficulty.
-   * @returns Promise resolving to an object of questions with pagination info.
+   * @returns Promise resolving to an array of questions.
    */
-  async getQuestions(params?: QuestionApiParams): Promise<QuestionApiResponse> {
+  async getQuestions(params?: QuestionApiParams): Promise<Question[]> {
     try {
-      const response = await axios.get<QuestionApiResponse>(this.baseURL, {
+      const response = await axios.get<Question[]>(this.baseURL, {
         params,
         withCredentials: true,
       });
 
-      return response.data;
+      return response.data; 
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         console.error('Axios error while fetching questions:', error.message);
