@@ -1,0 +1,215 @@
+/* Payment Page Specific Styles */
+@import url('./common.css');
+
+/* Payment page specific variables */
+:root {
+  --payment-color: #ff7e5f;
+  --payment-light: #ff9a82;
+  --payment-dark: #e6603f;
+  --payment-gradient: linear-gradient(135deg, var(--payment-color), var(--payment-light));
+}
+
+/* Price tag styling */
+.price-tag {
+  background: rgba(74, 111, 165, 0.05);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 2px solid rgba(74, 111, 165, 0.1);
+  transition: all 0.3s ease;
+}
+
+.price-tag:hover {
+  border-color: rgba(74, 111, 165, 0.2);
+  transform: scale(1.02);
+}
+
+/* Payment security info styling */
+.payment-security {
+  background: linear-gradient(135deg, rgba(40, 167, 69, 0.05), rgba(40, 167, 69, 0.02));
+  border: 1px solid rgba(40, 167, 69, 0.2);
+}
+
+/* Enhanced button styling for payment */
+.payment-btn {
+  background: var(--payment-gradient);
+  background-size: 200% 200%;
+  animation: gradientFlow 3s ease infinite;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 126, 95, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.payment-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 126, 95, 0.4);
+}
+
+.payment-btn:active {
+  transform: translateY(0);
+}
+
+.payment-btn::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0.1) 20%,
+    rgba(255, 255, 255, 0.3) 40%,
+    transparent 60%
+  );
+  transform: rotate(25deg);
+  transition: opacity 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.payment-btn:hover::before {
+  animation: shimmer 0.8s forwards;
+  opacity: 1;
+}
+
+/* Card enhancement for payment page */
+.payment-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.payment-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--payment-gradient);
+  z-index: 1;
+}
+
+.payment-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+}
+
+/* Features list styling */
+.payment-features {
+  background: rgba(248, 249, 250, 0.8);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.payment-features .col-md-4 {
+  padding: 0.5rem;
+}
+
+.payment-features i {
+  color: var(--payment-color);
+  font-size: 1.2rem;
+}
+
+/* Loading state enhancement */
+.payment-loading {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 3rem;
+  text-align: center;
+}
+
+/* Error and success states */
+.payment-error {
+  background: rgba(220, 53, 69, 0.05);
+  border: 2px solid rgba(220, 53, 69, 0.2);
+  border-radius: 20px;
+}
+
+.payment-success {
+  background: rgba(40, 167, 69, 0.05);
+  border: 2px solid rgba(40, 167, 69, 0.2);
+  border-radius: 20px;
+}
+
+/* Responsive enhancements */
+@media (max-width: 768px) {
+  .price-tag {
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  .payment-features .row {
+    text-align: center;
+  }
+  
+  .payment-features .col-md-4 {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Pulse animation for important elements */
+.payment-pulse {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { 
+    transform: scale(1); 
+    box-shadow: 0 4px 15px rgba(255, 126, 95, 0.3);
+  }
+  50% { 
+    transform: scale(1.02); 
+    box-shadow: 0 8px 25px rgba(255, 126, 95, 0.5);
+  }
+}
+
+/* Enhanced icon styling */
+.payment-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Security badge styling */
+.security-badge {
+  background: linear-gradient(135deg, rgba(40, 167, 69, 0.1), rgba(40, 167, 69, 0.05));
+  border: 1px solid rgba(40, 167, 69, 0.2);
+  border-radius: 50px;
+  padding: 0.75rem 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  margin: 1rem auto;
+  transition: all 0.3s ease;
+}
+
+.security-badge:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.2);
+}
+
+.security-badge i {
+  color: #28a745;
+  font-size: 1.2rem;
+  margin-right: 0.5rem;
+}

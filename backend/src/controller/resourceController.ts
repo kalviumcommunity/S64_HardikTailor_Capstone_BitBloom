@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Resource from '../models/Resource';
+import { userHasPurchased } from './paymentController';
 
 // Extend Multer's File type for Cloudinary
 interface CloudinaryFile extends Express.Multer.File {
@@ -10,40 +11,46 @@ interface CloudinaryFile extends Express.Multer.File {
   resource_type?: string;
 }
 
-// POST /api/resources
 export const createResource = async (req: Request, res: Response) => {
   try {
+    console.log("📩 Incoming /api/resources request");
     const { title, description, isFree, price } = req.body;
     const file = req.file as CloudinaryFile;
 
     if (!file) {
-      return res.status(400).json({ message: 'No file uploaded' });
+      console.error("❌ No file uploaded");
+      return res.status(400).json({ message: "No file uploaded" });
     }
 
-    if (!file.path || !file.path.startsWith('http')) {
-      console.error('Invalid Cloudinary URL:', file.path);
-      return res.status(500).json({ message: 'File upload failed - invalid URL returned' });
+    if (!file.path && !file.secure_url) {
+      console.error("❌ Cloudinary upload failed, file object:", file);
+      return res.status(500).json({ message: "File upload failed" });
     }
 
     const newResource = new Resource({
       title,
       description,
       isFree,
-      price: isFree ? undefined : price,
+      price: isFree === "true" ? undefined : Number(price),
       file: file.secure_url || file.path,
       user: req.user?.id,
     });
 
     const savedResource = await newResource.save();
+
     return res.status(201).json({
       ...savedResource.toObject(),
       downloadUrl: file.secure_url || file.path,
     });
-  } catch (error) {
-    console.error('Error creating resource:', error);
-    return res.status(400).json({ message: 'Failed to create resource', error });
+  } catch (error: any) {
+    console.error("🔥 INTERNAL ERROR:", error instanceof Error ? error.message : error);
+    return res.status(500).json({
+      message: "Internal server error",
+      error: error?.message || "Unknown error",
+    });
   }
 };
+
 
 // GET /api/resources
 export const getResources = async (_req: Request, res: Response) => {
@@ -74,12 +81,6 @@ export const getResourceById = async (req: Request, res: Response) => {
   } catch (error) {
     return res.status(500).json({ message: 'Error fetching resource', error });
   }
-};
-
-// Helper (Mock) to simulate purchase check
-const userHasPurchased = async (_userId: string, _resourceId: string) => {
-  // Simulate true always; replace with DB logic later
-  return true;
 };
 
 // GET /api/resources/:id/download

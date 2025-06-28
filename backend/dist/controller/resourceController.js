@@ -6,23 +6,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateResource = exports.deleteResource = exports.downloadResource = exports.getResourceById = exports.getResources = exports.createResource = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const Resource_1 = __importDefault(require("../models/Resource"));
-// POST /api/resources
+const paymentController_1 = require("./paymentController");
 const createResource = async (req, res) => {
     try {
+        console.log("📩 Incoming /api/resources request");
         const { title, description, isFree, price } = req.body;
         const file = req.file;
         if (!file) {
-            return res.status(400).json({ message: 'No file uploaded' });
+            console.error("❌ No file uploaded");
+            return res.status(400).json({ message: "No file uploaded" });
         }
-        if (!file.path || !file.path.startsWith('http')) {
-            console.error('Invalid Cloudinary URL:', file.path);
-            return res.status(500).json({ message: 'File upload failed - invalid URL returned' });
+        if (!file.path && !file.secure_url) {
+            console.error("❌ Cloudinary upload failed, file object:", file);
+            return res.status(500).json({ message: "File upload failed" });
         }
         const newResource = new Resource_1.default({
             title,
             description,
             isFree,
-            price: isFree ? undefined : price,
+            price: isFree === "true" ? undefined : Number(price),
             file: file.secure_url || file.path,
             user: req.user?.id,
         });
@@ -33,8 +35,11 @@ const createResource = async (req, res) => {
         });
     }
     catch (error) {
-        console.error('Error creating resource:', error);
-        return res.status(400).json({ message: 'Failed to create resource', error });
+        console.error("🔥 INTERNAL ERROR:", error instanceof Error ? error.message : error);
+        return res.status(500).json({
+            message: "Internal server error",
+            error: error?.message || "Unknown error",
+        });
     }
 };
 exports.createResource = createResource;
@@ -69,11 +74,6 @@ const getResourceById = async (req, res) => {
     }
 };
 exports.getResourceById = getResourceById;
-// Helper (Mock) to simulate purchase check
-const userHasPurchased = async (_userId, _resourceId) => {
-    // Simulate true always; replace with DB logic later
-    return true;
-};
 // GET /api/resources/:id/download
 const downloadResource = async (req, res) => {
     const { id } = req.params;
@@ -94,7 +94,7 @@ const downloadResource = async (req, res) => {
             if (!userId) {
                 return res.status(401).json({ message: 'Login required to access paid resources' });
             }
-            const hasPurchased = await userHasPurchased(userId, id);
+            const hasPurchased = await (0, paymentController_1.userHasPurchased)(userId, id);
             if (!hasPurchased) {
                 return res.status(403).json({
                     message: 'You must purchase this resource before downloading',

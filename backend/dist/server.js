@@ -11,6 +11,7 @@ const resourceRoutes_1 = __importDefault(require("./routes/resourceRoutes"));
 const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 const projectRoutes_1 = __importDefault(require("./routes/projectRoutes"));
 const questionRoutes_1 = __importDefault(require("./routes/questionRoutes"));
+const paymentRoutes_1 = __importDefault(require("./routes/paymentRoutes"));
 dotenv_1.default.config();
 (0, db_1.default)();
 const app = (0, express_1.default)();
@@ -35,6 +36,7 @@ app.use('/api/resources', resourceRoutes_1.default);
 app.use('/api/auth', userRoutes_1.default);
 app.use('/api/project', projectRoutes_1.default);
 app.use('/api/coding', questionRoutes_1.default);
+app.use('/api/payment', paymentRoutes_1.default);
 app.get('/test', (req, res) => {
     res.json({ message: 'BitBloom backend working fine ✅' });
 });

@@ -1,0 +1,37 @@
+meta {
+  name: Verify Payment
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/payment/verify
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "razorpay_order_id": "{{razorpay_order_id}}",
+    "razorpay_payment_id": "{{razorpay_payment_id}}",
+    "razorpay_signature": "{{razorpay_signature}}",
+    "resourceId": "{{resourceId}}"
+  }
+}
+
+docs {
+  Verify Razorpay payment signature and mark purchase as completed
+}
+
+tests {
+  test("should verify payment successfully", function() {
+    expect(response.status).to.equal(200);
+    expect(response.body.message).to.equal("Payment verified successfully");
+    expect(response.body.purchaseId).to.be.a("string");
+    expect(response.body.resourceId).to.equal("{{resourceId}}");
+  });
+} 
