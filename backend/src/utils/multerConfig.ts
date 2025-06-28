@@ -37,7 +37,7 @@ const storage = new CloudinaryStorage({
         ...imageExts,
         ...videoExts,
       ].map((e) => e.replace('.', '')),
-      public_id: () => baseName,
+      public_id:    baseName,
       resource_type, // ✅ included here inside `params`, not outside
     };
   },

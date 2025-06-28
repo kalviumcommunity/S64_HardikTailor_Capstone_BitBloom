@@ -1,0 +1,35 @@
+meta {
+  name: Create Order
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/payment/create-order
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "resourceId": "{{resourceId}}"
+  }
+}
+
+docs {
+  Create a Razorpay order for a paid resource
+}
+
+tests {
+  test("should create order successfully", function() {
+    expect(response.status).to.equal(200);
+    expect(response.body.orderId).to.be.a("string");
+    expect(response.body.amount).to.be.a("number");
+    expect(response.body.currency).to.equal("INR");
+    expect(response.body.keyId).to.be.a("string");
+  });
+} 

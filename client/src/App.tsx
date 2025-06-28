@@ -11,6 +11,7 @@ import CodingPage from './page/codingPage';
 import UploadProject from './page/uploadProject';
 import ProjectFeed from './page/projectFeed';
 import ResourceFeed from './page/resourceFeed';
+import PaymentPage from './page/payment';
 import ProtectedRoute from './components/ProtectedRoute'; 
 
 const App: React.FC = () => {
@@ -48,6 +49,14 @@ const App: React.FC = () => {
         element={
           <ProtectedRoute>
             <ResourceDetails />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/payment/:resourceId"
+        element={
+          <ProtectedRoute>
+            <PaymentPage />
           </ProtectedRoute>
         }
       />

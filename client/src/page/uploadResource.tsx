@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import axios from 'axios';
 import styles from '../styles/UploadResource.module.css';
-const API_BASE_URL =  import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+const API_BASE_URL =   "http://localhost:5000";
 
 const UploadResource: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -86,7 +86,7 @@ const UploadResource: React.FC = () => {
         });
       }, 300);
       
-      const response = await axios.post(`${API_BASE_URL}/api/resources`, formData, {
+      const response = await axios.post(`${API_BASE_URL}/api/resources/`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,

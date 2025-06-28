@@ -13,7 +13,24 @@ import upload from '../utils/multerConfig';
 const router = express.Router();
 
 
-router.post('/', authMiddleware, upload.single('file'), createResource);
+router.post(
+  '/',
+  authMiddleware,
+  (req, res, next) => {
+    upload.single('file')(req, res, (err) => {
+      if (err) {
+        console.error('❌ Multer Error:', err);
+        return res.status(500).json({
+          message: 'Multer upload failed',
+          error: err.message || JSON.stringify(err),
+        });
+      }
+      next();
+    });
+  },
+  createResource
+);
+
 router.get('/', getResources);
 
 router.get('/download/:id', authMiddleware, downloadResource);
