@@ -264,3 +264,11 @@ We welcome contributions to BitBloom! If you'd like to contribute, please follow
   </p>
 </div>
 
+## Author
+
+Hardik Tailor  
+Original creator and maintainer of this project.
+
+This repository is public for learning and portfolio purposes.
+Cloning is allowed, but presenting this project as original work (academic or professional) without attribution is prohibited.
+
